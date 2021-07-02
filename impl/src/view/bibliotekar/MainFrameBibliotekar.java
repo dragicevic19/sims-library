@@ -13,20 +13,24 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class MainFrame extends JFrame {
+import model.korisnici.Bibliotekar;
+
+public class MainFrameBibliotekar extends JFrame {
 
 	private static final long serialVersionUID = 4703527718003660405L;
 
-	private static MainFrame instance = null;
+	private static MainFrameBibliotekar instance = null;
+	private static Bibliotekar ulogovaniBibliotekar = null;
 
-	public static MainFrame getInstance() {
+	public static MainFrameBibliotekar getInstance(Bibliotekar ulogovaniBib) {
 		if (instance == null) {
-			instance = new MainFrame();
+			ulogovaniBibliotekar = ulogovaniBib;
+			instance = new MainFrameBibliotekar();
 		}
 		return instance;
 	}
 
-	public MainFrame() {
+	public MainFrameBibliotekar() {
 
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenDimension.width / 2, screenDimension.height / 2);
@@ -97,7 +101,7 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TrenutnaZaduzenjaFrame.getInstance();
+				TrenutnaZaduzenjaFrame.getInstance();
 			}
 		});
 

@@ -8,6 +8,7 @@ import model.izdanje.BazaIzdanja;
 import model.izdanje.Izdanje;
 import model.knjiga.BazaKnjiga;
 import model.knjiga.Knjiga;
+import model.korisnici.BazaClanova;
 
 public class BazaPrimerak {
 
@@ -154,5 +155,9 @@ public class BazaPrimerak {
 
 	public void iznajmljenPrimerak(Primerak p) {
 		p.setZauzet(true);
+	}
+
+	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerci() {
+		return BazaClanova.getInstance().getTrenutnoIznajmljeniPrimerci();
 	}
 }

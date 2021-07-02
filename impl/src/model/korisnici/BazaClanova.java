@@ -178,4 +178,16 @@ public class BazaClanova {
 
 		return retList;
 	}
+
+	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerci() {
+		List<ZauzetPrimerak> retList = new ArrayList<ZauzetPrimerak>();
+
+		for (Clan clan : clanovi) {
+			for (ZauzetPrimerak zauzetPrimerak : clan.getIznajmljeniPrimerci()) {
+				if (!zauzetPrimerak.isVracen())
+					retList.add(zauzetPrimerak);
+			}
+		}
+		return retList;
+	}
 }

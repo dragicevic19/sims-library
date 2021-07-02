@@ -20,6 +20,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import controller.BibliotekariController;
 import controller.ClanoviController;
+import controller.KorisniciController;
 import controller.MestaController;
 import dto.ClanDTO;
 import model.korisnici.VrstaClana;
@@ -47,8 +48,6 @@ public class RegistracijaClanaFrame extends JFrame {
 		}
 		return instance;
 	}
-
-	// private JTable tabelaIgraca;
 
 	public RegistracijaClanaFrame() {
 		setFont(new Font("Calibri", Font.BOLD, 20));
@@ -155,13 +154,14 @@ public class RegistracijaClanaFrame extends JFrame {
 		panel_1.add(lblVrstaClana, "cell 2 9,alignx trailing");
 
 		cbVrstaClana = new JComboBox();
-		cbVrstaClana.setMaximumRowCount(5);
+		cbVrstaClana.setMaximumRowCount(VrstaClana.values().length);
 		cbVrstaClana.setModel(new DefaultComboBoxModel(VrstaClana.values()));
 		panel_1.add(cbVrstaClana, "cell 3 9,growx");
 
 		JButton btnPotvrdi = new JButton("REGISTRUJ");
 		btnPotvrdi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
 				ClanDTO cDTO = proveriUnetePodatke();
 				if (cDTO != null) {
 					BibliotekariController.getInstance().dodajClana(cDTO);
@@ -169,9 +169,6 @@ public class RegistracijaClanaFrame extends JFrame {
 							JOptionPane.INFORMATION_MESSAGE);
 					dispose();
 					instance = null;
-				} else {
-					JOptionPane.showMessageDialog(null, "Greska pri unosu podataka!", "GRESKA",
-							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -192,18 +189,26 @@ public class RegistracijaClanaFrame extends JFrame {
 		VrstaClana vrsta = (VrstaClana) cbVrstaClana.getSelectedItem();
 		String eMail = tfEmail.getText().trim();
 		LocalDate datumRodjenja;
+
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			datumRodjenja = LocalDate.parse(tfDatumRodj.getText().trim(), formatter);
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Greska pri unosu datuma!", "GRESKA", JOptionPane.ERROR_MESSAGE);
 			return regClan;
 		}
 
 		if (ime.length() == 0 || prezime.length() == 0 || kIme.length() == 0 || adresa.length() == 0
-				|| eMail.length() == 0 || jmbg.length() != 13 || datumRodjenja.isAfter(LocalDate.now())) {
-			return regClan;
+				|| pozivNaBr.length() == 0 || eMail.length() == 0 || jmbg.length() != 13
+				|| datumRodjenja.isAfter(LocalDate.now())) {
 
+			JOptionPane.showMessageDialog(null, "Greska pri unosu podataka!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+
+		} else if (KorisniciController.getInstance().getKorisnikZaKorisnickoIme(kIme) != null) { // postoji korisnik
+			JOptionPane.showMessageDialog(null, "Uneto korisnicko ime vec postoji", "GRESKA",
+					JOptionPane.ERROR_MESSAGE);
 		} else {
+
 			regClan = new ClanDTO(ime, prezime, kIme, lozinka, jmbg, mesto, adresa, datumRodjenja, pozivNaBr, vrsta,
 					eMail);
 		}
