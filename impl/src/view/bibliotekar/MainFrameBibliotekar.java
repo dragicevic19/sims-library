@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import controller.BibliotekariController;
+import controller.ClanoviController;
+import controller.PrimerciController;
 import model.korisnici.Bibliotekar;
 
 public class MainFrameBibliotekar extends JFrame {
@@ -85,7 +88,11 @@ public class MainFrameBibliotekar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				IznajmljivanjeFrame.getInstance();
+				if (ClanoviController.getInstance().getClanovi().size() == 0) {
+					JOptionPane.showMessageDialog(null, "Jos uvek ne postoji nijedan clan!");
+				} else {
+					IznajmljivanjeFrame.getInstance();
+				}
 			}
 		});
 
@@ -101,7 +108,10 @@ public class MainFrameBibliotekar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TrenutnaZaduzenjaFrame.getInstance();
+				if (PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size() == 0)
+					JOptionPane.showMessageDialog(null, "Trenutno nema iznajmljenih primeraka");
+				else
+					TrenutnaZaduzenjaFrame.getInstance();
 			}
 		});
 

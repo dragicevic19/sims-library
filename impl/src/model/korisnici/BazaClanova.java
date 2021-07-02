@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import model.mesto.BazaMesto;
 import model.mesto.Mesto;
 import model.primerak.ZauzetPrimerak;
 
@@ -28,6 +29,13 @@ public class BazaClanova {
 		generator = 0;
 
 		this.clanovi = new ArrayList<Clan>();
+		Clan c = new Clan(BazaKorisnika.getInstance().generateId(), "paja", "Paja", "Patak", "paja123", "1002001223232",
+				BazaMesto.getInstance().getMesta().get(0), "Vuka Karadzica 1", VrstaClana.STUDENT);
+		clanovi.add(c);
+
+		Clan c1 = new Clan(BazaKorisnika.getInstance().generateId(), "miso", "Miso", "Misic", "miso123",
+				"1232152123123", BazaMesto.getInstance().getMesta().get(1), "Rumenacka 2", VrstaClana.PENZIONER);
+		clanovi.add(c1);
 
 		this.kolone = new ArrayList<String>();
 		this.kolone.add("ID");
@@ -86,12 +94,14 @@ public class BazaClanova {
 			String adresa, VrstaClana vrsta, LocalDate datumRodj, String pozivNaBr, LocalDate datumIstekaClan,
 			String eMail) {
 
-		this.clanovi.add(new Clan(generateId(), korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa, vrsta,
-				datumRodj, pozivNaBr, datumIstekaClan, eMail));
+		this.clanovi.add(new Clan(BazaKorisnika.getInstance().generateId(), korisnickoIme, ime, prezime, lozinka, jmbg,
+				mesto, adresa, vrsta, datumRodj, pozivNaBr, datumIstekaClan, eMail));
 		// dodaj u bazu
 	}
 
 	public void dodajClana(Clan clan) {
+		// clan.setId(generateId()); ID je na nivou svih korisnika pa se to u
+		// BaziKorisnika odredjuje?
 		this.clanovi.add(clan);
 		// dodaj u bazu
 	}
@@ -189,5 +199,16 @@ public class BazaClanova {
 			}
 		}
 		return retList;
+	}
+
+	public Clan getClanZaTrenutnoIznajmljeniPrimerak(ZauzetPrimerak z) {
+		Clan clan = null;
+		for (Clan c : clanovi) {
+			for (ZauzetPrimerak zauzeti : c.getIznajmljeniPrimerci()) {
+				if (zauzeti.getPrimerak().getId() == z.getPrimerak().getId() && zauzeti.getPrimerak().isZauzet())
+					clan = c;
+			}
+		}
+		return clan;
 	}
 }

@@ -25,7 +25,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
-import controller.KnjigeController;
+import controller.PrimerciController;
+import model.primerak.ZauzetPrimerak;
 
 public class TrenutnaZaduzenjaFrame extends JFrame {
 
@@ -35,8 +36,9 @@ public class TrenutnaZaduzenjaFrame extends JFrame {
 	protected JTextField tfSearch = new JTextField(20);
 	protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<AbstractTableModel>();
 
-	public static TrenutnaZaduzenjaFrame getInstance() { // ne treba singleton?
-		instance = new TrenutnaZaduzenjaFrame();
+	public static TrenutnaZaduzenjaFrame getInstance() {
+		if (instance == null)
+			instance = new TrenutnaZaduzenjaFrame();
 		return instance;
 	}
 
@@ -46,10 +48,17 @@ public class TrenutnaZaduzenjaFrame extends JFrame {
 		setTitle("BIBLIOTEKA - Iznajmljivanje knjige");
 
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(1213, 593);
+		setSize(screenDimension.width / 2, screenDimension.height / 2);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				dispose();
+				instance = null;
+			}
+		});
 
 		prikaziTabelu();
 		podesavanjeAkcija();
@@ -89,11 +98,11 @@ public class TrenutnaZaduzenjaFrame extends JFrame {
 		pSearch.add(tfSearch, "cell 1 0,alignx left,aligny center");
 
 		getContentPane().add(pSearch, BorderLayout.SOUTH);
-		JButton btnIznajmi = new JButton("Iznajmi");
-		btnIznajmi.setFont(new Font("Calibri", Font.BOLD, 15));
-		pSearch.add(btnIznajmi, "cell 31 0,alignx right,aligny center");
+		JButton btnVrati = new JButton("VRACENA KNJIGA");
+		btnVrati.setFont(new Font("Calibri", Font.BOLD, 15));
+		pSearch.add(btnVrati, "cell 31 0,alignx right,aligny center");
 
-		btnIznajmi.addActionListener(new ActionListener() {
+		btnVrati.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +111,9 @@ public class TrenutnaZaduzenjaFrame extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					int row = tabelaZaduzenja.getSelectedRow();
-					IznajmljivanjePodaciFrame.getInstance(KnjigeController.getInstance().getKnjige().get(row));
+					ZauzetPrimerak z = PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().get(row);
+					PrimerciController.getInstance().vracanjePrimerka(z);
+					JOptionPane.showMessageDialog(null, "Uspesno vracanje knjige!");
 					instance = null;
 					dispose();
 				}

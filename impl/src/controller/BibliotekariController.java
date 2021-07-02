@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import dto.ClanDTO;
 import model.korisnici.BazaClanova;
+import model.korisnici.BazaKorisnika;
 import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
 import model.primerak.Primerak;
@@ -25,6 +26,7 @@ public class BibliotekariController {
 
 	public void dodajClana(ClanDTO cDTO) {
 		Clan noviClan = new Clan();
+		noviClan.setId(BazaKorisnika.getInstance().generateId());
 		noviClan.setIme(cDTO.getIme());
 		noviClan.setPrezime(cDTO.getPrezime());
 		noviClan.setKorisnickoIme(cDTO.getKorisnickoIme());

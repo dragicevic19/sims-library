@@ -2,7 +2,9 @@ package view.bibliotekar;
 
 import javax.swing.table.AbstractTableModel;
 
+import controller.PrimerciController;
 import model.primerak.BazaPrimerak;
+import model.primerak.ZauzetPrimerak;
 
 public class AbstractTableModelZaduzenja extends AbstractTableModel {
 
@@ -16,14 +18,25 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 	}
 
 	@Override
-	public int getRowCount() {
-		return BazaPrimerak.getInstance().getTrenutnoIznajmljeniPrimerci().size();
+	public String getColumnName(int column) {
+		return this.columnNames[column];
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getRowCount() {
+		// ovde neki uslov za istoriju zaduzenja?
+		return PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size();
+	}
+
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		return this.getValueAt(0, columnIndex).getClass();
+	}
+
+	@Override
+	public Object getValueAt(int row, int col) {
+		ZauzetPrimerak z = PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().get(row);
+		return PrimerciController.getInstance().toCell(z, col);
 	}
 
 }

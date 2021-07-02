@@ -1,6 +1,5 @@
 package controller;
 
-import model.knjiga.BazaKnjiga;
 import model.korisnici.BazaKorisnika;
 import model.korisnici.Korisnik;
 

@@ -9,6 +9,7 @@ import model.izdanje.Izdanje;
 import model.knjiga.BazaKnjiga;
 import model.knjiga.Knjiga;
 import model.korisnici.BazaClanova;
+import model.korisnici.Clan;
 
 public class BazaPrimerak {
 
@@ -148,9 +149,7 @@ public class BazaPrimerak {
 					slobodniPrimerci.add(primerak);
 			}
 		}
-
 		return slobodniPrimerci;
-
 	}
 
 	public void iznajmljenPrimerak(Primerak p) {
@@ -159,5 +158,25 @@ public class BazaPrimerak {
 
 	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerci() {
 		return BazaClanova.getInstance().getTrenutnoIznajmljeniPrimerci();
+	}
+
+	public Object zauzetiPrimerakToCell(ZauzetPrimerak z, Clan clan, int col) {
+
+		switch (col) {
+		case 0:
+			return clan.getId();
+		case 1:
+			return clan.getIme();
+		case 2:
+			return clan.getPrezime();
+		case 3:
+			return clan.getKorisnickoIme();
+		case 4:
+			return z.getPrimerak().getId();
+		case 5:
+			return z.getPrimerak().getKnjiga().getNaslov();
+		default:
+			return null;
+		}
 	}
 }

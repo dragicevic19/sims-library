@@ -23,8 +23,9 @@ public class Clan extends Korisnik {
 	}
 
 	public Clan(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg, Mesto mesto,
-			String adresa) {
+			String adresa, VrstaClana vrsta) {
 		super(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa);
+		this.vrsta = vrsta;
 		this.iznajmljeniPrimerci = new ArrayList<ZauzetPrimerak>();
 		// this.rezervisaniPrimerci = new ArrayList<RezervacijaKnjige>();
 	}

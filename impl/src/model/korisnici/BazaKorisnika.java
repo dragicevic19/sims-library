@@ -6,6 +6,7 @@ import java.util.List;
 public class BazaKorisnika {
 
 	private static BazaKorisnika instance = null;
+	private long generator;
 
 	public static BazaKorisnika getInstance() {
 		if (instance == null) {
@@ -16,6 +17,10 @@ public class BazaKorisnika {
 
 	private BazaKorisnika() {
 
+	}
+
+	public long generateId() {
+		return ++generator;
 	}
 
 	public List<Korisnik> getKorisnici() {
