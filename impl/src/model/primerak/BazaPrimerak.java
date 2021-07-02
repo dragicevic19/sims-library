@@ -23,12 +23,14 @@ public class BazaPrimerak {
 	}
 
 	private long generator;
+	private long generatorZauzetog;
 
 	private List<Primerak> primerci;
 	private List<String> kolone;
 
 	private BazaPrimerak() {
 		generator = 0;
+		generatorZauzetog = 0;
 
 		this.kolone = new ArrayList<String>();
 		this.kolone.add("ID");
@@ -82,6 +84,10 @@ public class BazaPrimerak {
 
 	private long generateId() {
 		return ++generator;
+	}
+
+	public long generateIdZauzetog() {
+		return ++generatorZauzetog;
 	}
 
 	public int getColumnCount() {
@@ -160,6 +166,11 @@ public class BazaPrimerak {
 		return BazaClanova.getInstance().getTrenutnoIznajmljeniPrimerci();
 	}
 
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerci() {
+		return BazaClanova.getInstance().getSviIznajmljeniPrimerci();
+
+	}
+
 	public Object zauzetiPrimerakToCell(ZauzetPrimerak z, Clan clan, int col) {
 
 		switch (col) {
@@ -179,4 +190,5 @@ public class BazaPrimerak {
 			return null;
 		}
 	}
+
 }

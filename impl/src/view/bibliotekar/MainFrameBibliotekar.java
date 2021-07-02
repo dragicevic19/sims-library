@@ -67,8 +67,6 @@ public class MainFrameBibliotekar extends JFrame {
 
 		panelTop.add(btnRegistracija);
 		panelTop.add(btnIznajmi);
-		// panelTop.add(btnPovratakKnjige); moze u pregledu zaduzenja da oznaci koja je
-		// knjiga vracena
 		panelTop.add(btnAzurKnjige);
 		panelTop.add(btnPregTrenZaduz);
 		panelTop.add(btnPregIstorije);
@@ -111,7 +109,7 @@ public class MainFrameBibliotekar extends JFrame {
 				if (PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size() == 0)
 					JOptionPane.showMessageDialog(null, "Trenutno nema iznajmljenih primeraka");
 				else
-					TrenutnaZaduzenjaFrame.getInstance();
+					ZaduzenjaFrame.getInstance("trenutna");
 			}
 		});
 
@@ -119,7 +117,7 @@ public class MainFrameBibliotekar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// IstorijaZaduzenjaFrame.getInstance();
+				ZaduzenjaFrame.getInstance("istorija");
 			}
 		});
 
@@ -127,7 +125,7 @@ public class MainFrameBibliotekar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// RezervacijeFrame.getInstance();
+				//RezervacijeFrame.getInstance();
 			}
 		});
 	}

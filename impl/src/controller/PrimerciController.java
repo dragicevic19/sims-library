@@ -32,8 +32,12 @@ public class PrimerciController {
 		return BazaPrimerak.getInstance().getTrenutnoIznajmljeniPrimerci();
 	}
 
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerci() {
+		return BazaPrimerak.getInstance().getSviIznajmljeniPrimerci();
+	}
+
 	public Object toCell(ZauzetPrimerak z, int col) {
-		Clan clan = BazaClanova.getInstance().getClanZaTrenutnoIznajmljeniPrimerak(z);
+		Clan clan = BazaClanova.getInstance().getClanZaIznajmljeniPrimerak(z);
 		return BazaPrimerak.getInstance().zauzetiPrimerakToCell(z, clan, col);
 	}
 

@@ -28,24 +28,30 @@ import javax.swing.table.TableRowSorter;
 import controller.PrimerciController;
 import model.primerak.ZauzetPrimerak;
 
-public class TrenutnaZaduzenjaFrame extends JFrame {
+public class ZaduzenjaFrame extends JFrame {
 
 	private static final long serialVersionUID = -4119756951694214294L;
-	private static TrenutnaZaduzenjaFrame instance = null;
+	private static ZaduzenjaFrame instance = null;
+	private static String mod = null;
 
 	protected JTextField tfSearch = new JTextField(20);
 	protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<AbstractTableModel>();
 
-	public static TrenutnaZaduzenjaFrame getInstance() {
-		if (instance == null)
-			instance = new TrenutnaZaduzenjaFrame();
+	public static ZaduzenjaFrame getInstance(String m) {
+		if (instance == null) {
+			mod = m;
+			instance = new ZaduzenjaFrame();
+		}
 		return instance;
 	}
 
 	private JTable tabelaZaduzenja;
 
-	public TrenutnaZaduzenjaFrame() {
-		setTitle("BIBLIOTEKA - Iznajmljivanje knjige");
+	public ZaduzenjaFrame() {
+		if (mod.equals("istorija"))
+			setTitle("BIBLIOTEKA - Istorija zaduzenja");
+		else
+			setTitle("BIBLIOTEKA - Trenutna zaduzenja");
 
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenDimension.width / 2, screenDimension.height / 2);
@@ -65,7 +71,7 @@ public class TrenutnaZaduzenjaFrame extends JFrame {
 	}
 
 	private void prikaziTabelu() {
-		tabelaZaduzenja = new JTable(new AbstractTableModelZaduzenja());
+		tabelaZaduzenja = new JTable(new AbstractTableModelZaduzenja(mod));
 
 		tabelaZaduzenja.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabelaZaduzenja.getTableHeader().setReorderingAllowed(false);
@@ -100,7 +106,9 @@ public class TrenutnaZaduzenjaFrame extends JFrame {
 		getContentPane().add(pSearch, BorderLayout.SOUTH);
 		JButton btnVrati = new JButton("VRACENA KNJIGA");
 		btnVrati.setFont(new Font("Calibri", Font.BOLD, 15));
-		pSearch.add(btnVrati, "cell 31 0,alignx right,aligny center");
+
+		if (mod.equals("trenutna"))
+			pSearch.add(btnVrati, "cell 31 0,alignx right,aligny center");
 
 		btnVrati.addActionListener(new ActionListener() {
 

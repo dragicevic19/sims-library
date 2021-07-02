@@ -201,14 +201,25 @@ public class BazaClanova {
 		return retList;
 	}
 
-	public Clan getClanZaTrenutnoIznajmljeniPrimerak(ZauzetPrimerak z) {
+	public Clan getClanZaIznajmljeniPrimerak(ZauzetPrimerak z) {
 		Clan clan = null;
 		for (Clan c : clanovi) {
 			for (ZauzetPrimerak zauzeti : c.getIznajmljeniPrimerci()) {
-				if (zauzeti.getPrimerak().getId() == z.getPrimerak().getId() && zauzeti.getPrimerak().isZauzet())
+				if (zauzeti.getId() == z.getId())
 					clan = c;
 			}
 		}
 		return clan;
+	}
+
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerci() {
+		List<ZauzetPrimerak> retList = new ArrayList<ZauzetPrimerak>();
+
+		for (Clan clan : clanovi) {
+			for (ZauzetPrimerak zauzetPrimerak : clan.getIznajmljeniPrimerci()) {
+				retList.add(zauzetPrimerak);
+			}
+		}
+		return retList;
 	}
 }

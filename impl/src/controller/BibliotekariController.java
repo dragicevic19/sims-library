@@ -50,7 +50,7 @@ public class BibliotekariController {
 
 		ZauzetPrimerak zp = new ZauzetPrimerak(p);
 		zp.setDatumVracanja(LocalDate.now().plusDays(BazaClanova.getInstance().getRokZaVracanjeZaClana(clan)));
-
+		zp.setId(BazaPrimerak.getInstance().generateIdZauzetog());
 		BazaClanova.getInstance().dodajIznajmljeniPrimerakZaClana(clan, zp);
 
 		BazaPrimerak.getInstance().iznajmljenPrimerak(p);

@@ -11,6 +11,11 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 	private static final long serialVersionUID = -2744161400885779492L;
 
 	private String[] columnNames = { "ID clana", "Ime", "Prezime", "Korisnicko ime", "ID primerka", "Naslov" };
+	private String mod;
+
+	public AbstractTableModelZaduzenja(String mod) {
+		this.mod = mod;
+	}
 
 	@Override
 	public int getColumnCount() {
@@ -24,8 +29,10 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		// ovde neki uslov za istoriju zaduzenja?
-		return PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size();
+		if (mod.equals("trenutna"))
+			return PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size();
+		else
+			return PrimerciController.getInstance().getSviIznajmljeniPrimerci().size();
 	}
 
 	@Override
@@ -35,7 +42,12 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		ZauzetPrimerak z = PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().get(row);
+		ZauzetPrimerak z;
+		if (mod.equals("trenutna"))
+			z = PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().get(row);
+		else
+			z = PrimerciController.getInstance().getSviIznajmljeniPrimerci().get(row);
+
 		return PrimerciController.getInstance().toCell(z, col);
 	}
 

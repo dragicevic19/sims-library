@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class ZauzetPrimerak {
 
+	private long id;
 	private LocalDate datumVracanja;
 	private boolean rokProduzen;
 	private boolean vracen;
@@ -16,9 +17,10 @@ public class ZauzetPrimerak {
 		this.revizija = null;
 	}
 
-	public ZauzetPrimerak(LocalDate datumVracanja, boolean rokProduzen, boolean vracen, Primerak primerak,
+	public ZauzetPrimerak(long id, LocalDate datumVracanja, boolean rokProduzen, boolean vracen, Primerak primerak,
 			Revizija revizija) {
 		super();
+		this.id = id;
 		this.datumVracanja = datumVracanja;
 		this.rokProduzen = rokProduzen;
 		this.vracen = vracen;
@@ -29,6 +31,14 @@ public class ZauzetPrimerak {
 	public ZauzetPrimerak(Primerak p) {
 		this();
 		this.primerak = p;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public LocalDate getDatumVracanja() {
