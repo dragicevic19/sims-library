@@ -159,7 +159,9 @@ public class ZaduzenjaFrame extends JFrame {
 							.get(row);
 
 					if (PrimerciController.getInstance().produzenjeRokaZaVracanjePrimerka(z, ulogovani)) {
-						JOptionPane.showMessageDialog(null, "Uspesno vracanje knjige!");
+						JOptionPane.showMessageDialog(null,
+								"Uspesno ste produzili rok za vracanje knjige!\nSada je rok: "
+										+ z.getDatumVracanja().toString());
 						instance = null;
 						dispose();
 					} else {

@@ -1,11 +1,8 @@
-package view.bibliotekar;
+package view.admin;
 
-import model.knjiga.Knjiga;
 import model.korisnici.Clan;
-import model.primerak.Primerak;
 import controller.BibliotekariController;
 import controller.ClanoviController;
-import controller.PrimerciController;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,20 +20,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.Font;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import net.miginfocom.swing.MigLayout;
+import view.bibliotekar.AbstractTableModelClanovi;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class BlokiranjeFrame extends JFrame {
-	
+
 	private static final long serialVersionUID = -1963829151345705584L;
 
 	private static BlokiranjeFrame instance = null;
@@ -46,7 +40,7 @@ public class BlokiranjeFrame extends JFrame {
 	protected JTextField tfSearch = new JTextField(20);
 	protected JComboBox comboBox;
 
-	public static BlokiranjeFrame getInstance() { 
+	public static BlokiranjeFrame getInstance() {
 		if (instance == null) {
 			instance = new BlokiranjeFrame();
 		}
@@ -72,7 +66,6 @@ public class BlokiranjeFrame extends JFrame {
 		postaviTabeluClanova();
 		postaviPretragu();
 	}
-
 
 	private void postaviTabeluClanova() {
 		tabelaClanova = new JTable(new AbstractTableModelClanovi());
@@ -104,22 +97,16 @@ public class BlokiranjeFrame extends JFrame {
 							"GRESKA", JOptionPane.ERROR_MESSAGE);
 				} else {
 					Clan c = ClanoviController.getInstance().getClanovi().get(tabelaClanova.getSelectedRow());
-					if (c.isObrisan() == true) {
-						JOptionPane.showMessageDialog(tabelaClanova, "Korisnik je blokiran!",
-							"GRESKA", JOptionPane.ERROR_MESSAGE);}
-					c.setObrisan(true);
-					if (c.isObrisan() == true) {
-						JOptionPane.showMessageDialog(tabelaClanova, "Blokiranje korisnika je uspesno!");
-						dispose();
-						instance = null;
-						} 
-					}
+					BibliotekariController.getInstance().blokirajClana(c);
+					JOptionPane.showMessageDialog(tabelaClanova, "Blokiranje korisnika je uspesno!");
+					dispose();
+					instance = null;
+				}
 			}
-			
 		});
 
 		pSearch.add(btnBlokiraj, "cell 22 0,alignx left,aligny center");
-		
+
 		tfSearch.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -141,7 +128,6 @@ public class BlokiranjeFrame extends JFrame {
 				}
 			}
 		});
-
 
 	}
 

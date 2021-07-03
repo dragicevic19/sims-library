@@ -170,7 +170,6 @@ public class BazaPrimerak {
 		return BazaClanova.getInstance().getSviIznajmljeniPrimerci();
 	}
 
-	// sledece dve fje obrisi zbog pulla
 	public List<ZauzetPrimerak> getSviIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
 		return BazaClanova.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan);
 	}
@@ -194,6 +193,8 @@ public class BazaPrimerak {
 			return z.getPrimerak().getId();
 		case 5:
 			return z.getPrimerak().getKnjiga().getNaslov();
+		case 6:
+			return z.getDatumVracanja().toString();
 		default:
 			return null;
 		}

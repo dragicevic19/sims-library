@@ -26,6 +26,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import controller.KnjigeController;
+import controller.PrimerciController;
+import jdk.nashorn.internal.scripts.JO;
+import model.knjiga.Knjiga;
 
 public class IznajmljivanjeFrame extends JFrame {
 
@@ -111,9 +114,15 @@ public class IznajmljivanjeFrame extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					int row = tabelaKnjiga.getSelectedRow();
-					IznajmljivanjePodaciFrame.getInstance(KnjigeController.getInstance().getKnjige().get(row));
-					instance = null;
-					dispose();
+					Knjiga k = KnjigeController.getInstance().getKnjige().get(row);
+					if (PrimerciController.getInstance().getPrimerciZaIznajmljivanje(k).size() != 0) {
+						IznajmljivanjePodaciFrame.getInstance(KnjigeController.getInstance().getKnjige().get(row));
+						instance = null;
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Trenutno nema slobodnih primeraka izabrane knjige",
+								"GRESKA", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});

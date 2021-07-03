@@ -3,6 +3,9 @@ package view.clan;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,6 +33,15 @@ public class KomentariIOceneDialog extends JDialog {
 	public KomentariIOceneDialog(ZauzetPrimerak primerak, Clan clan) {
 		this.primerak = primerak;
 		this.clan = clan;
+
+		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int dialogWidth = screenDimension.width / 4;
+		int dialogHeight = screenDimension.height / 4;
+		int dialogX = screenDimension.width / 2 - dialogWidth / 2;
+		int dialogY = screenDimension.height / 2 - dialogHeight / 2;
+
+		setBounds(dialogX, dialogY, dialogWidth, dialogHeight);
+		setResizable(false);
 		setVisible(true);
 
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -65,13 +77,7 @@ public class KomentariIOceneDialog extends JDialog {
 		JButton btnPotvrda = new JButton("POSTAVI");
 		btnPotvrda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				/*
-				 * if (editorPane.getText().trim().length() == 0) {
-				 * JOptionPane.showMessageDialog(null, "Morate ostaviti neki komentar"); } ?? ?
-				 * 
-				 * da li mora komentar ili moze samo ocena??
-				 */
-				Integer ocena = (Integer) cbOcena.getSelectedItem();
+				Integer ocena = Integer.parseInt((String) cbOcena.getSelectedItem());
 				String komentar = editorPane.getText().trim();
 				PrimerciController.getInstance().napisanaRevizija(ocena, komentar, primerak);
 				JOptionPane.showMessageDialog(null, "Uspesno ste poslali komentar!");
@@ -107,7 +113,8 @@ public class KomentariIOceneDialog extends JDialog {
 		cbOcena.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 		panel_1.add(cbOcena);
 
-		pack();
+		setLocationRelativeTo(null);
+
 	}
 
 }

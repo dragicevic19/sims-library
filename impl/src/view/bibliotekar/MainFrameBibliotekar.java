@@ -10,10 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
-import controller.BibliotekariController;
 import controller.ClanoviController;
 import controller.PrimerciController;
 import model.korisnici.Bibliotekar;
@@ -60,18 +57,18 @@ public class MainFrameBibliotekar extends JFrame {
 	private void inicijalizujAkcije() {
 		JPanel panelTop = new JPanel();
 		JButton btnIznajmi = new JButton("Iznajmi knjigu");
-		btnIznajmi.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnIznajmi.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		JButton btnRegistracija = new JButton("Registracija clana");
-		btnRegistracija.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnRegistracija.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		JButton btnAzurKnjige = new JButton("Unos/Azuriranje knjiga");
-		btnAzurKnjige.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnAzurKnjige.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		JButton btnPregTrenZaduz = new JButton("Trenutna zaduzenja");
-		btnPregTrenZaduz.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnPregTrenZaduz.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		JButton btnPregIstorije = new JButton("Istorija zaduzenja");
-		btnPregIstorije.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnPregIstorije.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		JButton btnRezervacije = new JButton("Rezervacije");
-		btnRezervacije.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnRezervacije.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		panelTop.add(btnRegistracija);
 		panelTop.add(btnIznajmi);

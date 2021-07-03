@@ -11,7 +11,9 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 
 	private static final long serialVersionUID = -2744161400885779492L;
 
-	private String[] columnNames = { "ID clana", "Ime", "Prezime", "Korisnicko ime", "ID primerka", "Naslov" };
+	private String[] columnNames = { "ID clana", "Ime", "Prezime", "Korisnicko ime", "ID primerka", "Naslov",
+			"Rok za vracanje" };
+
 	private String mod;
 	private Clan ulogovaniClan;
 

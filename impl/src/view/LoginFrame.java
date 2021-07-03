@@ -15,11 +15,10 @@ import controller.KorisniciController;
 import model.korisnici.Bibliotekar;
 import model.korisnici.Clan;
 import model.korisnici.Korisnik;
-import model.korisnici.Admin;
 import net.miginfocom.swing.MigLayout;
+import view.admin.MainFrameAdmin;
 import view.bibliotekar.MainFrameBibliotekar;
 import view.clan.MainFrameClan;
-import view.bibliotekar.MainFrameAdmin;
 
 public class LoginFrame extends JFrame {
 
@@ -105,6 +104,7 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void mainFrame() {
+		dispose();
 
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -118,15 +118,12 @@ public class LoginFrame extends JFrame {
 		if (this.ulogovaniKorisnik instanceof Clan)
 			MainFrameClan.getInstance((Clan) this.ulogovaniKorisnik);
 
-		else if (this.ulogovaniKorisnik instanceof Admin) {
-			MainFrameAdmin.getInstance((Admin) this.ulogovaniKorisnik);
-		}
-
 		else if (this.ulogovaniKorisnik instanceof Bibliotekar) {
-			dispose();
-			MainFrameBibliotekar.getInstance((Bibliotekar) this.ulogovaniKorisnik);
+			if (((Bibliotekar) ulogovaniKorisnik).isAdmin())
+				MainFrameAdmin.getInstance((Bibliotekar) this.ulogovaniKorisnik);
+			else
+				MainFrameBibliotekar.getInstance((Bibliotekar) this.ulogovaniKorisnik);
 		}
-
 	}
 
 }
