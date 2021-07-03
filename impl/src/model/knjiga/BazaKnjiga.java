@@ -55,6 +55,7 @@ public class BazaKnjiga {
 		
 
 		File file = new File("./Baza/knjige.txt");
+		
 		try {
 			if (!file.exists()) {
 		        file.createNewFile();
