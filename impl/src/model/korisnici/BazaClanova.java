@@ -47,8 +47,13 @@ public class BazaClanova {
 	}
 
 	public List<Clan> getClanovi() {
-		return clanovi;
-	}
+        List<Clan> aktivniClanovi = new ArrayList<Clan>();
+        for (Clan clan : clanovi) {
+            if (!clan.isObrisan())
+                aktivniClanovi.add(clan);
+        }
+        return aktivniClanovi;
+    }
 
 	public void setClanovi(List<Clan> clanovi) {
 		this.clanovi = clanovi;
@@ -71,7 +76,7 @@ public class BazaClanova {
 	}
 
 	public String getValueAt(int row, int column) {
-		Clan clan = this.clanovi.get(row);
+		Clan clan = getClanovi().get(row);
 		switch (column) {
 		case 0:
 			return Long.toString(clan.getId());
