@@ -54,80 +54,73 @@ public class BazaPrimerak {
 
 	private void initPrimerci() {
 		this.primerci = new ArrayList<Primerak>();
-		
 
 		File file = new File("./Baza/primerci.txt");
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
+				file.createNewFile();
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 0);
-		        dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 0);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 0);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 0);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 0);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 0);
 
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(1), false, 1);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(0),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(0),
 						BazaIzdanja.getInstance().getIzdanja().get(1), false, 1);
 
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(1),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(1),
 						BazaIzdanja.getInstance().getIzdanja().get(1), false, 2);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(1),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(1),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 3);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(1),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(1),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 3);
-				dodajPrimerak( BazaKnjiga.getInstance().getKnjige().get(1),
+				dodajPrimerak(BazaKnjiga.getInstance().getKnjige().get(1),
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 3);
-				
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-		{
-			String[] parts = st.split(";");
-			long id = Long.parseLong(parts[0]);
-			
-			long knjID = Long.parseLong(parts[1]);
-			Knjiga knjiga = null;
-			BazaKnjiga bKnjiga = BazaKnjiga.getInstance();
-			for (Knjiga k : bKnjiga.getKnjige())
-			{
-				if (k.getId() == knjID)
-				{
-					knjiga = k;
-				}
+
 			}
-			
-			long izdID = Long.parseLong(parts[2]);
-			Izdanje izdanje = null;
-			BazaIzdanja bIZD = BazaIzdanja.getInstance();
-			for (Izdanje i : bIZD.getIzdanja())
-			{
-				if (izdID == i.getId())
-				{
-					izdanje = i;
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null) {
+				String[] parts = st.split(";");
+				long id = Long.parseLong(parts[0]);
+
+				long knjID = Long.parseLong(parts[1]);
+				Knjiga knjiga = null;
+				BazaKnjiga bKnjiga = BazaKnjiga.getInstance();
+				for (Knjiga k : bKnjiga.getKnjige()) {
+					if (k.getId() == knjID) {
+						knjiga = k;
+					}
 				}
+
+				long izdID = Long.parseLong(parts[2]);
+				Izdanje izdanje = null;
+				BazaIzdanja bIZD = BazaIzdanja.getInstance();
+				for (Izdanje i : bIZD.getIzdanja()) {
+					if (izdID == i.getId()) {
+						izdanje = i;
+					}
+				}
+
+				boolean izDov = Boolean.parseBoolean(parts[3]);
+				int polica = Integer.parseInt(parts[4]);
+
+				Primerak primerak = new Primerak(id, knjiga, izdanje, izDov, polica);
+				this.primerci.add(primerak);
 			}
-				
-			
-			boolean izDov = Boolean.parseBoolean(parts[3]);
-			int polica = Integer.parseInt(parts[4]);
-			
-			Primerak primerak = new Primerak(id, knjiga, izdanje, izDov, polica);
-			this.primerci.add(primerak);
-		}
-		br.close();
+			br.close();
 		} catch (Exception e) {
-			
+
 		}
 
 	}
@@ -182,60 +175,37 @@ public class BazaPrimerak {
 	}
 
 	public void dodajPrimerak(Knjiga knjiga, Izdanje izdanje, boolean iznosDozvoljen, int polica) {
-		
-		BazaID bID = BazaID.getInstance();
-		long id = bID.getIdPrimerak();
+
+		long id = BazaID.getInstance().getIdPrimerak();
 		Primerak primerak = new Primerak(id, knjiga, izdanje, iznosDozvoljen, polica);
 		this.primerci.add(primerak);
-		
-		File file = new File("./Baza/primerci.txt");
-		
-		try(FileWriter fw = new FileWriter(file, true);
-			    BufferedWriter bw = new BufferedWriter(fw);
-			    PrintWriter out = new PrintWriter(bw))
-			{
-				String insertString = "";
-				insertString += Long.toString(primerak.getId()) + ";";
-				insertString += Long.toString(primerak.getKnjiga().getId()) + ";";
-				insertString += Long.toString(primerak.getIzdanje().getId()) + ";";
-				insertString += Boolean.toString(primerak.isIznosDozvoljen()) + ";";
-				insertString += Integer.toString(primerak.getPolica()) + ";";
-			    out.println(insertString);
-			    
-			    
-			} catch (Exception e) {
-				
-			}
-	}
-	
-public void dodajPrimerak(Primerak primerak) {
-		
-		this.primerci.add(primerak);
-		
-		File file = new File("./Baza/primerci.txt");
-		
-		try(FileWriter fw = new FileWriter(file, true);
-			    BufferedWriter bw = new BufferedWriter(fw);
-			    PrintWriter out = new PrintWriter(bw))
-			{
-				String insertString = "";
-				insertString += Long.toString(primerak.getId()) + ";";
-				insertString += Long.toString(primerak.getKnjiga().getId()) + ";";
-				insertString += Long.toString(primerak.getIzdanje().getId()) + ";";
-				insertString += Boolean.toString(primerak.isIznosDozvoljen()) + ";";
-				insertString += Integer.toString(primerak.getPolica()) + ";";
-			    out.println(insertString);
-			    
-			    
-			} catch (Exception e) {
-				
-			}
+
+		dodajPrimerakUBazu(primerak);
 	}
 
-	/*
-	 * da li treba?? public void izbrisiPrimerak(long id) { for (Primerak i :
-	 * primerci) { if (i.getId() == id) { primerci.remove(i); break; } } }
-	 */
+	public void dodajPrimerak(Primerak primerak) {
+		this.primerci.add(primerak);
+		dodajPrimerakUBazu(primerak);
+	}
+
+	private void dodajPrimerakUBazu(Primerak primerak) {
+		File file = new File("./Baza/primerci.txt");
+
+		try (FileWriter fw = new FileWriter(file, true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw)) {
+			String insertString = "";
+			insertString += Long.toString(primerak.getId()) + ";";
+			insertString += Long.toString(primerak.getKnjiga().getId()) + ";";
+			insertString += Long.toString(primerak.getIzdanje().getId()) + ";";
+			insertString += Boolean.toString(primerak.isIznosDozvoljen()) + ";";
+			insertString += Integer.toString(primerak.getPolica()) + ";";
+			out.println(insertString);
+
+		} catch (Exception e) {
+
+		}
+	}
 
 	public void izmeniPrimerak(long id, Knjiga knjiga, Izdanje izdanje, boolean zauzet, boolean iznosDozvoljen,
 			int polica) {
@@ -275,6 +245,14 @@ public void dodajPrimerak(Primerak primerak) {
 
 	}
 
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		return BazaClanova.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan);
+	}
+
+	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		return BazaClanova.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovaniClan);
+	}
+
 	public Object zauzetiPrimerakToCell(ZauzetPrimerak z, Clan clan, int col) {
 
 		switch (col) {
@@ -290,6 +268,8 @@ public void dodajPrimerak(Primerak primerak) {
 			return z.getPrimerak().getId();
 		case 5:
 			return z.getPrimerak().getKnjiga().getNaslov();
+		case 6:
+			return z.getDatumVracanja().toString();
 		default:
 			return null;
 		}

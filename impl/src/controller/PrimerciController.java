@@ -69,7 +69,7 @@ public class PrimerciController {
 	}
 
 	public void napisanaRevizija(Integer ocena, String komentar, ZauzetPrimerak zauzetPrimerak) {
-		Revizija r = new Revizija(komentar, ocena);
+		Revizija r = new Revizija(komentar, ocena, false);
 		zauzetPrimerak.setRevizija(r);
 
 	}

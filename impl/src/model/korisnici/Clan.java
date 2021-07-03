@@ -42,7 +42,7 @@ public class Clan extends Korisnik {
 		this.eMail = eMail;
 		// this.rezervisaniPrimerci = new ArrayList<RezervacijaKnjige>();
 	}
-	
+
 	public Clan(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg, Mesto mesto,
 			String adresa, VrstaClana vrsta, LocalDate datumRodj, String pozivNaBr, LocalDate datumIstekaClan,
 			String eMail, List<ZauzetPrimerak> iznajmljeniPrimeci, boolean izbrisan) {

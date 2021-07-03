@@ -10,24 +10,25 @@ import model.mesto.Mesto;
 public class Bibliotekar extends Korisnik {
 
 	private List<VrstaBibliotekara> uloge;
+	private boolean admin;
 
 	public Bibliotekar() {
 		this.uloge = new ArrayList<VrstaBibliotekara>();
 	}
 
 	public Bibliotekar(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
-			Mesto mesto, String adresa) {
+			Mesto mesto, String adresa, boolean admin) {
 		super(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa);
 		this.uloge = new ArrayList<VrstaBibliotekara>();
+		this.admin = admin;
 	}
 
 	public Bibliotekar(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
-			Mesto mesto, String adresa, List<VrstaBibliotekara> uloge) {
+			Mesto mesto, String adresa, List<VrstaBibliotekara> uloge, boolean admin) {
 		super(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa);
 		this.uloge = uloge;
+		this.admin = admin;
 	}
-	
-	
 
 	public List<VrstaBibliotekara> getUloge() {
 		return uloge;
@@ -35,6 +36,14 @@ public class Bibliotekar extends Korisnik {
 
 	public void setUloge(List<VrstaBibliotekara> uloge) {
 		this.uloge = uloge;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	@Override

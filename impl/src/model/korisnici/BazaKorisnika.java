@@ -36,12 +36,6 @@ public class BazaKorisnika {
 		for (Korisnik korisnik : BazaBibliotekara.getInstance().getBibliotekari()) {
 			sviKorisnici.add(korisnik);
 		}
-
-		/*
-		 * for (Korisnik korisnik : BazaAdmina.getInstance().getAdmini()) {
-		 * sviKorisnici.add(korisnik); }
-		 */
-
 		return sviKorisnici;
 	}
 
