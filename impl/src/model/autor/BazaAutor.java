@@ -1,9 +1,17 @@
 package model.autor;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.enums.VrstaAutora;
+import model.idnums.BazaID;
 
 public class BazaAutor {
 
@@ -16,13 +24,12 @@ public class BazaAutor {
 		return instance;
 	}
 
-	private long generator;
 
 	private List<Autor> autori;
 	private List<String> kolone;
 
 	private BazaAutor() {
-		generator = 0;
+
 
 		initAutore();
 
@@ -36,9 +43,32 @@ public class BazaAutor {
 
 	private void initAutore() {
 		this.autori = new ArrayList<Autor>();
-		autori.add(new Autor(generateId(), "Mika", "Mikic", VrstaAutora.PISAC));
-		autori.add(new Autor(generateId(), "Zika", "Zikic", VrstaAutora.ILUSTRATOR));
-		autori.add(new Autor(generateId(), "Pera", "Peric", VrstaAutora.PREVODIOC));
+
+		File file = new File("./Baza/autori.txt");
+		try {
+			if (!file.exists()) {
+		        file.createNewFile();
+		        dodajAutora("Mika", "Mikic", VrstaAutora.PISAC);
+		        dodajAutora("Zika", "Zikic", VrstaAutora.ILUSTRATOR);
+		        dodajAutora("Pera", "Peric", VrstaAutora.PREVODIOC);
+		    }
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		  
+		String st;
+		while ((st = br.readLine()) != null)
+		{
+			String[] parts = st.split(";");
+			long id = Long.parseLong(parts[0]);
+			String ime = parts[1];
+			String prezime = parts[2];
+			VrstaAutora vrsta = VrstaAutora.valueOf(parts[3]);
+			Autor autor = new Autor(id,ime,prezime,vrsta);
+			this.autori.add(autor);
+		}
+		br.close();
+		} catch (Exception e) {
+			
+		}
 	}
 
 	public List<Autor> getAutori() {
@@ -49,9 +79,7 @@ public class BazaAutor {
 		this.autori = autori;
 	}
 
-	private long generateId() {
-		return ++generator;
-	}
+
 
 	public int getColumnCount() {
 		return 4;
@@ -82,8 +110,51 @@ public class BazaAutor {
 	}
 
 	public void dodajAutora(String ime, String prezime, VrstaAutora vrstaAutora) {
-		this.autori.add(new Autor(generateId(), ime, prezime, vrstaAutora));
-		// dodaj u bazu
+		BazaID bID = BazaID.getInstance();
+		long id = bID.getIdAutor();
+		Autor autor = new Autor(id, ime, prezime, vrstaAutora);
+		this.autori.add(autor);
+		
+		File file = new File("./Baza/autori.txt");
+		
+		try(FileWriter fw = new FileWriter(file, true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw))
+			{
+				String insertString = "";
+				insertString += Long.toString(autor.getId()) + ";";
+				insertString += autor.getIme() + ";";
+				insertString += autor.getPrezime() + ";";
+				insertString += autor.getVrstaAutora().name();
+			    out.println(insertString);
+			    
+			    
+			} catch (Exception e) {
+				
+			}
+	}
+	
+	public void dodajAutora(Autor autor) {
+
+		this.autori.add(autor);
+		
+		File file = new File("./Baza/autori.txt");
+		
+		try(FileWriter fw = new FileWriter(file, true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw))
+			{
+				String insertString = "";
+				insertString += Long.toString(autor.getId()) + ";";
+				insertString += autor.getIme() + ";";
+				insertString += autor.getPrezime() + ";";
+				insertString += autor.getVrstaAutora().name();
+			    out.println(insertString);
+			    
+			    
+			} catch (Exception e) {
+				
+			}
 	}
 
 	/*
@@ -92,13 +163,32 @@ public class BazaAutor {
 	 */
 
 	public void izmeniAutora(long id, String ime, String prezime, VrstaAutora vrstaAutora) {
-		for (Autor i : autori) {
-			if (i.getId() == id) {
-				i.setIme(ime);
-				i.setPrezime(prezime);
-				i.setVrstaAutora(vrstaAutora);
+		File file = new File("./Baza/autori.txt");
+		try {
+			FileWriter writer = new FileWriter(file, false);
+			writer.append("");
+			writer.close();
+		} catch (Exception e) {
+
+		}
+		List<Autor> temp = new ArrayList<>(this.autori); 
+		for ( int i = 0; i < temp.size(); i++ ) {
+			Autor autor = temp.get(i);
+			if (autor.getId() == id) {
+				autor.setIme(ime);
+				autor.setPrezime(prezime);
+				autor.setVrstaAutora(vrstaAutora);
+
+				this.autori.remove(0);
+
+				dodajAutora(autor);
+			} else {
+
+				this.autori.remove(0);
+
+				dodajAutora(autor);
 			}
 		}
 	}
-
+	
 }
