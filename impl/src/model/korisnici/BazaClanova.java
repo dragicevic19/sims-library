@@ -47,12 +47,12 @@ public class BazaClanova {
 	}
 
 	public List<Clan> getClanovi() {
-		List<Clan> clanovi = new ArrayList<Clan>();
+		List<Clan> aktivniClanovi = new ArrayList<Clan>();
 		for (Clan clan : clanovi) {
 			if (!clan.isObrisan())
-				clanovi.add(clan);
+				aktivniClanovi.add(clan);
 		}
-		return clanovi;
+		return aktivniClanovi;
 	}
 
 	public void setClanovi(List<Clan> clanovi) {
@@ -76,7 +76,7 @@ public class BazaClanova {
 	}
 
 	public String getValueAt(int row, int column) {
-		Clan clan = this.clanovi.get(row);
+		Clan clan = getClanovi().get(row);
 		switch (column) {
 		case 0:
 			return Long.toString(clan.getId());
@@ -230,7 +230,6 @@ public class BazaClanova {
 		return retList;
 	}
 
-	// sledece dve funkcije obrisi zbog pulla
 	public List<ZauzetPrimerak> getSviIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
 		List<ZauzetPrimerak> retList = new ArrayList<ZauzetPrimerak>();
 

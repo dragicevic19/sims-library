@@ -27,17 +27,18 @@ public class BazaKorisnika {
 		List<Korisnik> sviKorisnici = new ArrayList<Korisnik>();
 
 		for (Korisnik korisnik : BazaClanova.getInstance().getClanovi()) {
-			sviKorisnici.add(korisnik);
+			if (korisnik.isObrisan() == false) {sviKorisnici.add(korisnik);}
 		}
 
 		for (Korisnik korisnik : BazaBibliotekara.getInstance().getBibliotekari()) {
 			sviKorisnici.add(korisnik);
 		}
 
-		/*
-		 * for (Korisnik korisnik : BazaAdmina.getInstance().getAdmini()) {
-		 * sviKorisnici.add(korisnik); }
-		 */
+		
+		for (Korisnik korisnik : BazaAdmina.getInstance().getAdmini()) {
+		 sviKorisnici.add(korisnik); 
+		}
+	
 
 		return sviKorisnici;
 	}

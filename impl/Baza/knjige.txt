@@ -1,0 +1,2 @@
+1;Paralelno programiranje;A5;Opis knjige Paralelno programiranje...;nauka,tehnologija,fakultet;1,2,3,1,2,3;SCIFI;
+2;Sistemska softverska podrska;A5;Opis knjige SSP...;nauka,tehnologija,fakultet;1,2,3,1,2,3;SCIFI;
