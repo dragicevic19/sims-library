@@ -3,10 +3,11 @@ package model.korisnici;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.idnums.BazaID;
+
 public class BazaKorisnika {
 
 	private static BazaKorisnika instance = null;
-	private long generator;
 
 	public static BazaKorisnika getInstance() {
 		if (instance == null) {
@@ -20,16 +21,16 @@ public class BazaKorisnika {
 	}
 
 	public long generateId() {
-		return ++generator;
+		BazaID bID = BazaID.getInstance();
+		long id = bID.getIdKorisnik();
+		return id;
 	}
 
 	public List<Korisnik> getKorisnici() {
 		List<Korisnik> sviKorisnici = new ArrayList<Korisnik>();
 
 		for (Korisnik korisnik : BazaClanova.getInstance().getClanovi()) {
-			if (korisnik.isObrisan() == false) {
-				sviKorisnici.add(korisnik);
-			}
+			sviKorisnici.add(korisnik);
 		}
 
 		for (Korisnik korisnik : BazaBibliotekara.getInstance().getBibliotekari()) {

@@ -21,6 +21,8 @@ public class BazaID {
 	private long idAutor;
 	private long idIzdanje;
 	private long idKnjiga;
+	private long idPrimerak;
+	private long idZPrimerak;
 
 	private BazaID()
 	{
@@ -28,7 +30,8 @@ public class BazaID {
 		initAutor();
 		initIzdanje();
 		initKnjiga();
-		
+		initPrimerak();
+		initZPrimerak();
 	}
 	public long getIdKorisnik() {
 		this.idKorisnik++;
@@ -85,6 +88,35 @@ public class BazaID {
 			
 		}
 		return idKnjiga;
+	}
+	
+	public long getIdPrimerak() {
+		this.idPrimerak++;
+		File idKfile = new File("./idFolder/idPrimerak.txt");
+		try {
+	    	FileWriter writeHere = new FileWriter(idKfile, false);
+	        String uling = Long.toString(idPrimerak);
+	        writeHere.append(uling);
+	        writeHere.close();
+		} catch (Exception e) {
+			
+		}
+		return idPrimerak;
+	}
+	
+	
+	public long getIdZPrimerak() {
+		this.idZPrimerak++;
+		File idKfile = new File("./idFolder/idZPrimerak.txt");
+		try {
+	    	FileWriter writeHere = new FileWriter(idKfile, false);
+	        String uling = Long.toString(idZPrimerak);
+	        writeHere.append(uling);
+	        writeHere.close();
+		} catch (Exception e) {
+			
+		}
+		return idZPrimerak;
 	}
 	
 	private void initKorisnik()
@@ -173,6 +205,50 @@ public class BazaID {
 		String st;
 		while ((st = br.readLine()) != null)
 			this.idIzdanje = Long.parseLong(st);
+		br.close();
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	private void initPrimerak()
+	{
+		File file = new File("./idFolder/idPrimerak.txt");
+		try {
+			if (!file.exists()) {
+		        file.createNewFile();
+		        String hello = "0";
+		        FileWriter writer = new FileWriter(file, true);
+		        writer.append(hello);
+		        writer.close();
+		    }
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		  
+		String st;
+		while ((st = br.readLine()) != null)
+			this.idPrimerak = Long.parseLong(st);
+		br.close();
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	private void initZPrimerak()
+	{
+		File file = new File("./idFolder/idZPrimerak.txt");
+		try {
+			if (!file.exists()) {
+		        file.createNewFile();
+		        String hello = "0";
+		        FileWriter writer = new FileWriter(file, true);
+		        writer.append(hello);
+		        writer.close();
+		    }
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		  
+		String st;
+		while ((st = br.readLine()) != null)
+			this.idZPrimerak = Long.parseLong(st);
 		br.close();
 		} catch (Exception e) {
 			

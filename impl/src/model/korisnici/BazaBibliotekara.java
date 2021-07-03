@@ -1,10 +1,19 @@
 package model.korisnici;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import model.autor.Autor;
 import model.enums.VrstaBibliotekara;
+import model.idnums.BazaID;
 import model.mesto.BazaMesto;
 import model.mesto.Mesto;
 
@@ -19,22 +28,16 @@ public class BazaBibliotekara {
 		return instance;
 	}
 
-	private long generator;
+
 	private List<Bibliotekar> bibliotekari;
 	private List<String> kolone;
 
 	private BazaBibliotekara() {
-		generator = 0;
+
 
 		this.bibliotekari = new ArrayList<Bibliotekar>();
-		Bibliotekar b = new Bibliotekar(generateId(), "luka", "Luka", "Lukic", "luka123", "1231231231232",
-				BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara(), false);
 
-		Bibliotekar a = new Bibliotekar(generateId(), "jova", "Jovan", "Jovanovic", "jova123", "1231231231232",
-				BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara(), true);
 
-		this.bibliotekari.add(b);
-		this.bibliotekari.add(a);
 
 		this.kolone = new ArrayList<String>();
 		this.kolone.add("ID");
@@ -44,6 +47,62 @@ public class BazaBibliotekara {
 		this.kolone.add("ULOGA");
 	}
 
+	private void initBibliotekari() {
+		
+		this.bibliotekari = new ArrayList<Bibliotekar>();
+		File file = new File("./Baza/bibliotekari.txt");
+		try {
+			if (!file.exists()) {
+		        file.createNewFile();
+				dodajBibliotekara( "luka", "Luka", "Lukic", "luka123", "1231231231232",
+				BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara());
+
+		    }
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		  
+		String st;
+		while ((st = br.readLine()) != null)
+		{
+			String[] parts = st.split(";");
+			long id = Long.parseLong(parts[0]);
+			String korisnickoIme = parts[1];
+			String ime = parts[2];
+			String prezime = parts[3];
+			String lozinka = parts[4];
+			String jmbg = parts[5];
+			
+			Mesto mesto = null;
+			for (Mesto m : BazaMesto.getInstance().getMesta())
+			{
+				if (m.getNaziv().equals(parts[6]))
+				{
+					mesto = m;
+				}
+			}
+			
+			String adresa = parts[7];
+		
+			List<VrstaBibliotekara> uloge = null;
+			
+			String[] ulogSt = parts[8].split(",");
+			for (String ulogan : ulogSt)
+			{
+				uloge.add(VrstaBibliotekara.valueOf(ulogan));
+			}
+			VrstaClana vrsta = VrstaClana.valueOf(parts[8]);
+
+			
+			Bibliotekar bibliotekar = new Bibliotekar(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa, uloge);
+				
+
+
+			
+		}
+		br.close();
+		} catch (Exception e) {
+			
+		}
+	}
 	public List<Bibliotekar> getBibliotekari() {
 		return bibliotekari;
 	}
@@ -52,9 +111,7 @@ public class BazaBibliotekara {
 		this.bibliotekari = bibliotekari;
 	}
 
-	private long generateId() {
-		return ++generator;
-	}
+
 
 	public int getColumnCount() {
 		return this.kolone.size();
@@ -87,16 +144,81 @@ public class BazaBibliotekara {
 	}
 
 	public void dodajBibliotekara(String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
-			Mesto mesto, String adresa, List<VrstaBibliotekara> vrstaB, boolean admin) {
+			Mesto mesto, String adresa, List<VrstaBibliotekara> vrstaB) {
 
-		this.bibliotekari.add(new Bibliotekar(generateId(), korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa,
-				vrstaB, admin));
-		// dodaj u bazu
+		
+
+
+		long id = BazaKorisnika.getInstance().generateId();
+		Bibliotekar bibliotekar = new Bibliotekar(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa, vrstaB);
+		this.bibliotekari.add(bibliotekar);
+		
+		File file = new File("./Baza/autori.txt");
+		
+		try(FileWriter fw = new FileWriter(file, true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw))
+			{
+				String insertString = "";
+				insertString += Long.toString(bibliotekar.getId()) + ";";
+				insertString += bibliotekar.getKorisnickoIme() + ";";
+				insertString += bibliotekar.getIme() + ";";
+				insertString += bibliotekar.getPrezime() + ";";
+				insertString += bibliotekar.getLozinka() + ";";
+				
+				insertString += bibliotekar.getJmbg() + ";";
+				insertString += bibliotekar.getMesto() + ";";
+				insertString += bibliotekar.getAdresa() + ";";
+				
+				String ulogeString = "";
+				for (VrstaBibliotekara vrB : bibliotekar.getUloge())
+				{
+					ulogeString += vrB.name() + ",";
+				}
+				insertString += ulogeString.substring(0,ulogeString.length()-1);
+
+				
+			    out.println(insertString);
+			    
+			    
+			} catch (Exception e) {
+				
+			}
 	}
 
-	public void dodajBibliotekara(Bibliotekar b) {
-		this.bibliotekari.add(b);
-		// dodaj u bazu
+	public void dodajBibliotekara(Bibliotekar bibliotekar) {
+		this.bibliotekari.add(bibliotekar);
+		File file = new File("./Baza/autori.txt");
+		
+		try(FileWriter fw = new FileWriter(file, true);
+			    BufferedWriter bw = new BufferedWriter(fw);
+			    PrintWriter out = new PrintWriter(bw))
+			{
+				String insertString = "";
+				insertString += Long.toString(bibliotekar.getId()) + ";";
+				insertString += bibliotekar.getKorisnickoIme() + ";";
+				insertString += bibliotekar.getIme() + ";";
+				insertString += bibliotekar.getPrezime() + ";";
+				insertString += bibliotekar.getLozinka() + ";";
+				
+				insertString += bibliotekar.getJmbg() + ";";
+				insertString += bibliotekar.getMesto() + ";";
+				insertString += bibliotekar.getAdresa() + ";";
+				
+				String ulogeString = "";
+				for (VrstaBibliotekara vrB : bibliotekar.getUloge())
+				{
+					ulogeString += vrB.name() + ",";
+				}
+				insertString += ulogeString.substring(0,ulogeString.length()-1);
+
+				
+			    out.println(insertString);
+			    
+			    
+			} catch (Exception e) {
+				
+			}
 	}
 
 	public Vector<VrstaBibliotekara> getSveVrsteBibliotekara() {

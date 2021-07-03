@@ -42,6 +42,20 @@ public class Clan extends Korisnik {
 		this.eMail = eMail;
 		// this.rezervisaniPrimerci = new ArrayList<RezervacijaKnjige>();
 	}
+	
+	public Clan(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg, Mesto mesto,
+			String adresa, VrstaClana vrsta, LocalDate datumRodj, String pozivNaBr, LocalDate datumIstekaClan,
+			String eMail, List<ZauzetPrimerak> iznajmljeniPrimeci, boolean izbrisan) {
+		super(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa);
+		this.vrsta = vrsta;
+		this.datumRodjenja = datumRodj;
+		this.pozivNaBr = pozivNaBr;
+		this.datumIstekaClanarine = datumIstekaClan;
+		this.iznajmljeniPrimerci = iznajmljeniPrimeci;
+		this.obrisan = izbrisan;
+		this.eMail = eMail;
+		// this.rezervisaniPrimerci = new ArrayList<RezervacijaKnjige>();
+	}
 
 	public VrstaClana getVrsta() {
 		return vrsta;

@@ -2,6 +2,8 @@ package model.primerak;
 
 import java.time.LocalDate;
 
+import model.idnums.BazaID;
+
 public class ZauzetPrimerak {
 
 	private long id;
@@ -28,9 +30,25 @@ public class ZauzetPrimerak {
 		this.revizija = revizija;
 	}
 
+	public ZauzetPrimerak(Primerak p, long id) {
+		this();
+		this.id = id;
+		this.primerak = p;
+	}
+	
 	public ZauzetPrimerak(Primerak p) {
 		this();
+		this.id = BazaID.getInstance().getIdZPrimerak();
 		this.primerak = p;
+	}
+	
+	public ZauzetPrimerak(Primerak p, long id, LocalDate datumVracanja, boolean rokProduzen, boolean vracen) {
+		this.id = id;
+		this.vracen = vracen;
+		this.datumVracanja = datumVracanja;
+		this.rokProduzen = rokProduzen;
+		this.primerak = p;
+		this.revizija = null;
 	}
 
 	public long getId() {
