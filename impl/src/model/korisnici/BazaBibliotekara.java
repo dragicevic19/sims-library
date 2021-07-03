@@ -28,9 +28,13 @@ public class BazaBibliotekara {
 
 		this.bibliotekari = new ArrayList<Bibliotekar>();
 		Bibliotekar b = new Bibliotekar(generateId(), "luka", "Luka", "Lukic", "luka123", "1231231231232",
-				BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara());
+				BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara(), false);
+
+		Bibliotekar a = new Bibliotekar(generateId(), "jova", "Jovan", "Jovanovic", "jova123", "1231231231232",
+				BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara(), true);
 
 		this.bibliotekari.add(b);
+		this.bibliotekari.add(a);
 
 		this.kolone = new ArrayList<String>();
 		this.kolone.add("ID");
@@ -83,10 +87,10 @@ public class BazaBibliotekara {
 	}
 
 	public void dodajBibliotekara(String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
-			Mesto mesto, String adresa, List<VrstaBibliotekara> vrstaB) {
+			Mesto mesto, String adresa, List<VrstaBibliotekara> vrstaB, boolean admin) {
 
-		this.bibliotekari
-				.add(new Bibliotekar(generateId(), korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa, vrstaB));
+		this.bibliotekari.add(new Bibliotekar(generateId(), korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa,
+				vrstaB, admin));
 		// dodaj u bazu
 	}
 

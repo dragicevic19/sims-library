@@ -57,4 +57,8 @@ public class BibliotekariController {
 
 		return true;
 	}
+
+	public void blokirajClana(Clan c) {
+		c.setObrisan(true);
+	}
 }
