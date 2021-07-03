@@ -17,19 +17,21 @@ import model.korisnici.Clan;
 import model.korisnici.Korisnik;
 import net.miginfocom.swing.MigLayout;
 import view.bibliotekar.MainFrameBibliotekar;
+import view.clan.MainFrameClan;
 
 public class LoginFrame extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private Korisnik ulogovaniKorisnik;
+	private static final long serialVersionUID = -8937083541242828807L;
+
+	private static Korisnik ulogovaniKorisnik;
 	private static LoginFrame instance = null;
 
 	public static LoginFrame getInstance() {
 
 		if (instance == null) {
+			ulogovaniKorisnik = null;
 			instance = new LoginFrame();
 		}
-
 		return instance;
 	}
 
@@ -81,6 +83,7 @@ public class LoginFrame extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 
 				else {
+					instance = null;
 					dialog.setVisible(false);
 					dialog.dispose();
 					LoginFrame.this.setVisible(true);
@@ -111,8 +114,7 @@ public class LoginFrame extends JFrame {
 	private void initMainGUI() {
 
 		if (this.ulogovaniKorisnik instanceof Clan)
-			System.out.println("Clan");
-		// MainFrameClan.getInstance((Clan) this.ulogovaniKorisnik);
+			MainFrameClan.getInstance((Clan) this.ulogovaniKorisnik);
 
 		else if (this.ulogovaniKorisnik instanceof Bibliotekar) {
 			dispose();

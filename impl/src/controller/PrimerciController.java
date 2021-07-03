@@ -8,6 +8,7 @@ import model.korisnici.BazaClanova;
 import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
 import model.primerak.Primerak;
+import model.primerak.Revizija;
 import model.primerak.ZauzetPrimerak;
 
 public class PrimerciController {
@@ -36,6 +37,14 @@ public class PrimerciController {
 		return BazaPrimerak.getInstance().getSviIznajmljeniPrimerci();
 	}
 
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		return BazaPrimerak.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan);
+	}
+
+	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		return BazaPrimerak.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovaniClan);
+	}
+
 	public Object toCell(ZauzetPrimerak z, int col) {
 		Clan clan = BazaClanova.getInstance().getClanZaIznajmljeniPrimerak(z);
 		return BazaPrimerak.getInstance().zauzetiPrimerakToCell(z, clan, col);
@@ -44,6 +53,25 @@ public class PrimerciController {
 	public void vracanjePrimerka(ZauzetPrimerak z) {
 		z.setVracen(true);
 		z.getPrimerak().setZauzet(false);
+	}
+
+	public boolean produzenjeRokaZaVracanjePrimerka(ZauzetPrimerak z, Clan clan) {
+		if (z.isRokProduzen())
+			return false;
+
+		z.setRokProduzen(true);
+		z.setDatumVracanja(z.getDatumVracanja().plusDays(BazaClanova.getInstance().getRokZaVracanjeZaClana(clan)));
+		return true;
+	}
+
+	public boolean isClanProcitaoPrimerak(ZauzetPrimerak z) {
+		return z.isVracen();
+	}
+
+	public void napisanaRevizija(Integer ocena, String komentar, ZauzetPrimerak zauzetPrimerak) {
+		Revizija r = new Revizija(komentar, ocena);
+		zauzetPrimerak.setRevizija(r);
+
 	}
 
 }

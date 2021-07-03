@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import net.miginfocom.swing.MigLayout;
+import view.clan.KomentariIOceneDialog;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +28,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableRowSorter;
 
 import controller.PrimerciController;
+import model.korisnici.Clan;
 import model.primerak.ZauzetPrimerak;
 
 public class ZaduzenjaFrame extends JFrame {
@@ -33,21 +36,24 @@ public class ZaduzenjaFrame extends JFrame {
 	private static final long serialVersionUID = -4119756951694214294L;
 	private static ZaduzenjaFrame instance = null;
 	private static String mod = null;
+	private static Clan ulogovani = null;
 
 	protected JTextField tfSearch = new JTextField(20);
 	protected TableRowSorter<AbstractTableModel> tableSorter = new TableRowSorter<AbstractTableModel>();
 
-	public static ZaduzenjaFrame getInstance(String m) {
+	public static ZaduzenjaFrame getInstance(String m, Clan clan) {
 		if (instance == null) {
 			mod = m;
+			ulogovani = clan;
 			instance = new ZaduzenjaFrame();
+
 		}
 		return instance;
 	}
 
 	private JTable tabelaZaduzenja;
 
-	public ZaduzenjaFrame() {
+	private ZaduzenjaFrame() {
 		if (mod.equals("istorija"))
 			setTitle("BIBLIOTEKA - Istorija zaduzenja");
 		else
@@ -71,7 +77,7 @@ public class ZaduzenjaFrame extends JFrame {
 	}
 
 	private void prikaziTabelu() {
-		tabelaZaduzenja = new JTable(new AbstractTableModelZaduzenja(mod));
+		tabelaZaduzenja = new JTable(new AbstractTableModelZaduzenja(mod, ulogovani));
 
 		tabelaZaduzenja.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabelaZaduzenja.getTableHeader().setReorderingAllowed(false);
@@ -104,11 +110,23 @@ public class ZaduzenjaFrame extends JFrame {
 		pSearch.add(tfSearch, "cell 1 0,alignx left,aligny center");
 
 		getContentPane().add(pSearch, BorderLayout.SOUTH);
+
 		JButton btnVrati = new JButton("VRACENA KNJIGA");
 		btnVrati.setFont(new Font("Calibri", Font.BOLD, 15));
 
-		if (mod.equals("trenutna"))
-			pSearch.add(btnVrati, "cell 31 0,alignx right,aligny center");
+		JButton btnProduziRok = new JButton("PRODUZI ROK ZA VRACANJE");
+		btnProduziRok.setFont(new Font("Calibri", Font.BOLD, 15));
+
+		JButton btnKomentar = new JButton("KOMENTARISI");
+		btnKomentar.setFont(new Font("Calibri", Font.BOLD, 15));
+
+		if (mod.equals("trenutna")) {
+			if (ulogovani == null)
+				pSearch.add(btnVrati, "cell 31 0,alignx right,aligny center");
+			else
+				pSearch.add(btnProduziRok, "cell 31 0,alignx right,aligny center");
+		} else if (ulogovani != null)
+			pSearch.add(btnKomentar, "cell 31 0,alignx right,aligny center");
 
 		btnVrati.addActionListener(new ActionListener() {
 
@@ -124,6 +142,55 @@ public class ZaduzenjaFrame extends JFrame {
 					JOptionPane.showMessageDialog(null, "Uspesno vracanje knjige!");
 					instance = null;
 					dispose();
+				}
+			}
+		});
+
+		btnProduziRok.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (tabelaZaduzenja.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Morate selektovati za koju zelite da produzite rok!", "GRESKA",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					int row = tabelaZaduzenja.getSelectedRow();
+					ZauzetPrimerak z = PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovani)
+							.get(row);
+
+					if (PrimerciController.getInstance().produzenjeRokaZaVracanjePrimerka(z, ulogovani)) {
+						JOptionPane.showMessageDialog(null, "Uspesno vracanje knjige!");
+						instance = null;
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Moguce je samo jednom produziti rok za vracanje!",
+								"GRESKA", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+
+		btnKomentar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (tabelaZaduzenja.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(null,
+							"Morate selektovati knjigu za koju zelite da ostavite komentar i ocenu!", "GRESKA",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					int row = tabelaZaduzenja.getSelectedRow();
+					ZauzetPrimerak z = PrimerciController.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovani)
+							.get(row);
+
+					if (PrimerciController.getInstance().isClanProcitaoPrimerak(z)) {
+						new KomentariIOceneDialog(z, ulogovani);
+						instance = null;
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Morate vratiti knjigu da biste ostavili komentar!",
+								"GRESKA", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});

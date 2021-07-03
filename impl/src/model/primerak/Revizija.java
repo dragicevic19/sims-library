@@ -9,11 +9,11 @@ public class Revizija {
 		this.moderisano = false;
 	}
 
-	public Revizija(String komentar, int ocena, boolean moderisano) {
+	public Revizija(String komentar, int ocena) {
 		super();
 		this.komentar = komentar;
 		this.ocena = ocena;
-		this.moderisano = moderisano;
+		this.moderisano = false;
 	}
 
 	public String getKomentar() {

@@ -1,13 +1,8 @@
 package controller;
 
 import java.util.List;
-import java.util.Vector;
-
-import model.knjiga.Knjiga;
 import model.korisnici.BazaClanova;
 import model.korisnici.Clan;
-import model.primerak.BazaPrimerak;
-import model.primerak.Primerak;
 
 public class ClanoviController {
 
@@ -28,8 +23,7 @@ public class ClanoviController {
 	}
 
 	public String generateRandomPassword(int passwordLen) {
-		return BazaClanova.getInstance().generateRandomPassword(passwordLen); // ili mozda samo da u kontroleru
-																				// implementiramo?
+		return BazaClanova.getInstance().generateRandomPassword(passwordLen);
 	}
 
 }

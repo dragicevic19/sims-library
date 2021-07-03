@@ -3,6 +3,7 @@ package view.bibliotekar;
 import javax.swing.table.AbstractTableModel;
 
 import controller.PrimerciController;
+import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
 import model.primerak.ZauzetPrimerak;
 
@@ -12,9 +13,11 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 
 	private String[] columnNames = { "ID clana", "Ime", "Prezime", "Korisnicko ime", "ID primerka", "Naslov" };
 	private String mod;
+	private Clan ulogovaniClan;
 
-	public AbstractTableModelZaduzenja(String mod) {
+	public AbstractTableModelZaduzenja(String mod, Clan ulogovani) {
 		this.mod = mod;
+		this.ulogovaniClan = ulogovani;
 	}
 
 	@Override
@@ -30,9 +33,16 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		if (mod.equals("trenutna"))
-			return PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size();
+			return (ulogovaniClan == null) ? PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size()
+					: PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovaniClan).size();
+
+		else if (mod.equals("istorija"))
+			return (ulogovaniClan == null) ? PrimerciController.getInstance().getSviIznajmljeniPrimerci().size()
+					: PrimerciController.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan).size();
+
 		else
-			return PrimerciController.getInstance().getSviIznajmljeniPrimerci().size();
+			return -1;
+
 	}
 
 	@Override
@@ -44,9 +54,12 @@ public class AbstractTableModelZaduzenja extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		ZauzetPrimerak z;
 		if (mod.equals("trenutna"))
-			z = PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().get(row);
+
+			z = (ulogovaniClan == null) ? PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().get(row)
+					: PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovaniClan).get(row);
 		else
-			z = PrimerciController.getInstance().getSviIznajmljeniPrimerci().get(row);
+			z = (ulogovaniClan == null) ? PrimerciController.getInstance().getSviIznajmljeniPrimerci().get(row)
+					: PrimerciController.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan).get(row);
 
 		return PrimerciController.getInstance().toCell(z, col);
 	}

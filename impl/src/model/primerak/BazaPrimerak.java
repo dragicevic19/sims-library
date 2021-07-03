@@ -168,7 +168,15 @@ public class BazaPrimerak {
 
 	public List<ZauzetPrimerak> getSviIznajmljeniPrimerci() {
 		return BazaClanova.getInstance().getSviIznajmljeniPrimerci();
+	}
 
+	// sledece dve fje obrisi zbog pulla
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		return BazaClanova.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan);
+	}
+
+	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		return BazaClanova.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovaniClan);
 	}
 
 	public Object zauzetiPrimerakToCell(ZauzetPrimerak z, Clan clan, int col) {

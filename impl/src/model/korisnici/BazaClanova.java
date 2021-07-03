@@ -47,6 +47,11 @@ public class BazaClanova {
 	}
 
 	public List<Clan> getClanovi() {
+		List<Clan> clanovi = new ArrayList<Clan>();
+		for (Clan clan : clanovi) {
+			if (!clan.isObrisan())
+				clanovi.add(clan);
+		}
 		return clanovi;
 	}
 
@@ -205,8 +210,10 @@ public class BazaClanova {
 		Clan clan = null;
 		for (Clan c : clanovi) {
 			for (ZauzetPrimerak zauzeti : c.getIznajmljeniPrimerci()) {
-				if (zauzeti.getId() == z.getId())
+				if (zauzeti.getId() == z.getId()) {
 					clan = c;
+					break;
+				}
 			}
 		}
 		return clan;
@@ -218,6 +225,34 @@ public class BazaClanova {
 		for (Clan clan : clanovi) {
 			for (ZauzetPrimerak zauzetPrimerak : clan.getIznajmljeniPrimerci()) {
 				retList.add(zauzetPrimerak);
+			}
+		}
+		return retList;
+	}
+
+	// sledece dve funkcije obrisi zbog pulla
+	public List<ZauzetPrimerak> getSviIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		List<ZauzetPrimerak> retList = new ArrayList<ZauzetPrimerak>();
+
+		for (Clan clan : clanovi) {
+			if (clan.getId() == ulogovaniClan.getId()) {
+				for (ZauzetPrimerak zauzetPrimerak : clan.getIznajmljeniPrimerci()) {
+					retList.add(zauzetPrimerak);
+				}
+			}
+		}
+		return retList;
+	}
+
+	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerciZaClana(Clan ulogovaniClan) {
+		List<ZauzetPrimerak> retList = new ArrayList<ZauzetPrimerak>();
+
+		for (Clan clan : clanovi) {
+			if (clan.getId() == ulogovaniClan.getId()) {
+				for (ZauzetPrimerak zauzetPrimerak : clan.getIznajmljeniPrimerci()) {
+					if (!zauzetPrimerak.isVracen())
+						retList.add(zauzetPrimerak);
+				}
 			}
 		}
 		return retList;

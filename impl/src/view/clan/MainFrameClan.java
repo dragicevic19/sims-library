@@ -1,7 +1,8 @@
-package view.bibliotekar;
+package view.clan;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,37 +11,33 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
-import controller.BibliotekariController;
-import controller.ClanoviController;
 import controller.PrimerciController;
-import model.korisnici.Bibliotekar;
+import model.korisnici.Clan;
 import view.LoginFrame;
+import view.bibliotekar.PromenaLozinkeDialog;
+import view.bibliotekar.ZaduzenjaFrame;
 
-import java.awt.Font;
+public class MainFrameClan extends JFrame {
 
-public class MainFrameBibliotekar extends JFrame {
+	private static final long serialVersionUID = -5737222110128467888L;
 
-	private static final long serialVersionUID = 4703527718003660405L;
+	private static MainFrameClan instance = null;
+	private static Clan ulogovaniClan = null;
 
-	private static MainFrameBibliotekar instance = null;
-	private static Bibliotekar ulogovaniBibliotekar = null;
-
-	public static MainFrameBibliotekar getInstance(Bibliotekar ulogovaniBib) {
+	public static MainFrameClan getInstance(Clan ulogovani) {
 		if (instance == null) {
-			ulogovaniBibliotekar = ulogovaniBib;
-			instance = new MainFrameBibliotekar();
+			ulogovaniClan = ulogovani;
+			instance = new MainFrameClan();
 		}
 		return instance;
 	}
 
-	public MainFrameBibliotekar() {
+	public MainFrameClan() {
 
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenDimension.width / 2, screenDimension.height / 2);
-		setTitle("BIBLIOTEKA - bibilotekar");
+		setTitle("BIBLIOTEKA - clan");
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -58,29 +55,21 @@ public class MainFrameBibliotekar extends JFrame {
 	}
 
 	private void inicijalizujAkcije() {
+
 		JPanel panelTop = new JPanel();
-		JButton btnIznajmi = new JButton("Iznajmi knjigu");
-		btnIznajmi.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		JButton btnRegistracija = new JButton("Registracija clana");
-		btnRegistracija.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		JButton btnAzurKnjige = new JButton("Unos/Azuriranje knjiga");
-		btnAzurKnjige.setFont(new Font("Tahoma", Font.PLAIN, 15));
-
-		JButton btnPregTrenZaduz = new JButton("Trenutna zaduzenja");
-		btnPregTrenZaduz.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JButton btnRezerv = new JButton("Rezervacija knjige");
+		JButton btnUplata = new JButton("Uplata clanarine");
+		JButton btnPregTrenZaduz = new JButton("Trenutna zaduzenja"); // produzenje roka
 		JButton btnPregIstorije = new JButton("Istorija zaduzenja");
-		btnPregIstorije.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		JButton btnRezervacije = new JButton("Rezervacije");
-		btnRezervacije.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JButton btnRezervacije = new JButton("Pregled rezervacije");
 
-		panelTop.add(btnRegistracija);
-		panelTop.add(btnIznajmi);
-		panelTop.add(btnAzurKnjige);
+		panelTop.add(btnRezerv);
+		panelTop.add(btnUplata);
 		panelTop.add(btnPregTrenZaduz);
 		panelTop.add(btnPregIstorije);
 		panelTop.add(btnRezervacije);
 
-		getContentPane().add(panelTop, BorderLayout.NORTH);
+		this.add(panelTop, BorderLayout.NORTH);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
@@ -91,7 +80,7 @@ public class MainFrameBibliotekar extends JFrame {
 				if (JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da se odjavite?", "Odjava",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					instance = null;
-					ulogovaniBibliotekar = null;
+					ulogovaniClan = null;
 					dispose();
 					LoginFrame.getInstance();
 				}
@@ -101,7 +90,7 @@ public class MainFrameBibliotekar extends JFrame {
 		JButton btnPromenaLozinke = new JButton("PROMENA LOZINKE");
 		btnPromenaLozinke.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new PromenaLozinkeDialog(ulogovaniBibliotekar);
+				new PromenaLozinkeDialog(ulogovaniClan);
 			}
 		});
 		btnPromenaLozinke.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -110,31 +99,19 @@ public class MainFrameBibliotekar extends JFrame {
 		button.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panel.add(button);
 
-		btnRegistracija.addActionListener(new ActionListener() {
+		btnRezerv.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RegistracijaClanaFrame.getInstance();
+				// RezervacijaKnjigeFrame.getInstance();
 			}
 		});
 
-		btnIznajmi.addActionListener(new ActionListener() {
+		btnUplata.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ClanoviController.getInstance().getClanovi().size() == 0) {
-					JOptionPane.showMessageDialog(null, "Jos uvek ne postoji nijedan clan!");
-				} else {
-					IznajmljivanjeFrame.getInstance();
-				}
-			}
-		});
-
-		btnAzurKnjige.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// AzurKnjigeFrame.getInstance();
+				// UplataClanarineFrame.getInstance();
 			}
 		});
 
@@ -142,10 +119,10 @@ public class MainFrameBibliotekar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerci().size() == 0)
-					JOptionPane.showMessageDialog(null, "Trenutno nema iznajmljenih primeraka");
+				if (PrimerciController.getInstance().getTrenutnoIznajmljeniPrimerciZaClana(ulogovaniClan).size() == 0)
+					JOptionPane.showMessageDialog(null, "Trenutno nemate iznajmljenih primeraka");
 				else
-					ZaduzenjaFrame.getInstance("trenutna", null);
+					ZaduzenjaFrame.getInstance("trenutna", ulogovaniClan);
 			}
 		});
 
@@ -153,10 +130,10 @@ public class MainFrameBibliotekar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (PrimerciController.getInstance().getSviIznajmljeniPrimerci().size() == 0)
-					JOptionPane.showMessageDialog(null, "Nema iznajmljenih primeraka");
+				if (PrimerciController.getInstance().getSviIznajmljeniPrimerciZaClana(ulogovaniClan).size() == 0)
+					JOptionPane.showMessageDialog(null, "Nemate iznajmljenih primeraka");
 				else
-					ZaduzenjaFrame.getInstance("istorija", null);
+					ZaduzenjaFrame.getInstance("istorija", ulogovaniClan);
 			}
 		});
 

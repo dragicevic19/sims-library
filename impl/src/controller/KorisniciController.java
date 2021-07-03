@@ -30,4 +30,13 @@ public class KorisniciController {
 		return BazaKorisnika.getInstance().getKorisnikZaKorisnickoIme(kIme);
 	}
 
+	public boolean promenaLozinke(Korisnik ulogovaniKorisnik, String stara, String nova, String novaPotvrda) {
+		if (ulogovaniKorisnik.getLozinka().equals(stara))
+			if (nova.equals(novaPotvrda)) {
+				ulogovaniKorisnik.setLozinka(nova);
+				// BazaKorisnika.promenaLozinke(); zbog osvezavanja baze?
+				return true;
+			}
+		return false;
+	}
 }
