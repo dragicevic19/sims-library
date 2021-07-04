@@ -14,7 +14,7 @@ public class BibliotekarDTO {
 	private String eMail;
 	private Boolean admin;
 
-	public BibliotekarDTO(String ime, String prezime, String korisnickoIme, String lozinka, String jmbg, Mesto mesto,
+	public BibliotekarDTO(String korisnickoIme, String ime, String prezime, String lozinka, String jmbg, Mesto mesto,
 			String adresa, String eMail, Boolean admin) {
 		super();
 		this.ime = ime;
@@ -92,7 +92,7 @@ public class BibliotekarDTO {
 		this.eMail = eMail;
 	}
 
-	public Boolean getAdmin() {
+	public Boolean isAdmin() {
 		return admin;
 	}
 

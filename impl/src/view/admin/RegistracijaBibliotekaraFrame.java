@@ -33,7 +33,7 @@ import model.korisnici.VrstaClana;
 import model.mesto.Mesto;
 
 public class RegistracijaBibliotekaraFrame extends JFrame {
-	
+
 	private static final long serialVersionUID = 288759158008582343L;
 	private static final int PASSWORD_LEN = 10;
 	private static RegistracijaBibliotekaraFrame instance = null;
@@ -137,7 +137,7 @@ public class RegistracijaBibliotekaraFrame extends JFrame {
 		tfAdresa = new JTextField();
 		panel_1.add(tfAdresa, "cell 3 5,growx");
 		tfAdresa.setColumns(10);
-		
+
 		JLabel lblAdmin = new JLabel("Admin: ");
 		panel_1.add(lblAdmin, "cell 2 6,alignx trailing");
 		rbAdmin = new JRadioButton();
@@ -158,8 +158,7 @@ public class RegistracijaBibliotekaraFrame extends JFrame {
 			}
 		});
 		panel_1.add(btnPotvrdi, "cell 17 9,growx,aligny bottom");
-		
-		
+
 	}
 
 	private BibliotekarDTO proveriUnetePodatke() {
@@ -178,7 +177,7 @@ public class RegistracijaBibliotekaraFrame extends JFrame {
 		if (ime.length() == 0 || prezime.length() == 0 || kIme.length() == 0 || adresa.length() == 0
 				|| jmbg.length() != 13) {
 
-				JOptionPane.showMessageDialog(null, "Greska pri unosu podataka!", "GRESKA", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Greska pri unosu podataka!", "GRESKA", JOptionPane.ERROR_MESSAGE);
 
 		} else if (KorisniciController.getInstance().getKorisnikZaKorisnickoIme(kIme) != null) { // postoji bibliotekar
 			JOptionPane.showMessageDialog(null, "Uneto korisnicko ime vec postoji", "GRESKA",

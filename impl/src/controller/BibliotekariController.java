@@ -79,6 +79,7 @@ public class BibliotekariController {
 		noviBibliotekar.setMesto(bDTO.getMesto());
 		noviBibliotekar.setUloge(BazaBibliotekara.getInstance().getSveVrsteBibliotekara());
 		noviBibliotekar.setJmbg(bDTO.getJmbg());
+		noviBibliotekar.setAdmin(bDTO.isAdmin());
 
 		BazaBibliotekara.getInstance().dodajBibliotekara(noviBibliotekar);
 	}
