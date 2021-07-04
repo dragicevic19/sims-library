@@ -25,9 +25,7 @@ public class BazaZauzetPrimerak {
 	private List<ZauzetPrimerak> zPrimerci;
 
 	private BazaZauzetPrimerak() {
-
 		initZPrimerci();
-
 	}
 
 	public List<ZauzetPrimerak> getZPrimerci() {
@@ -40,45 +38,46 @@ public class BazaZauzetPrimerak {
 		try {
 			if (!file.exists()) {
 				file.createNewFile();
-			}
-			BufferedReader br = new BufferedReader(new FileReader(file));
+			} else {
+				BufferedReader br = new BufferedReader(new FileReader(file));
 
-			String st;
-			while ((st = br.readLine()) != null) {
+				String st;
+				while ((st = br.readLine()) != null) {
 
-				String[] parts = st.split(";");
-				long id = Long.parseLong(parts[0]);
-				LocalDate datumVracanja = LocalDate.parse(parts[1]);
-				boolean rokProduzen = Boolean.parseBoolean(parts[2]);
-				boolean vracen = Boolean.parseBoolean(parts[3]);
+					String[] parts = st.split(";");
+					long id = Long.parseLong(parts[0]);
+					LocalDate datumVracanja = LocalDate.parse(parts[1]);
+					boolean rokProduzen = Boolean.parseBoolean(parts[2]);
+					boolean vracen = Boolean.parseBoolean(parts[3]);
 
-				long prID = Long.parseLong(parts[4]);
-				Primerak primerak = null;
-				BazaPrimerak bPRIM = BazaPrimerak.getInstance();
+					long prID = Long.parseLong(parts[4]);
+					Primerak primerak = null;
 
-				for (Primerak p : bPRIM.getPrimerci()) {
-					if (prID == p.getId()) {
-						primerak = p;
+					for (Primerak p : BazaPrimerak.getInstance().getPrimerci()) {
+						if (prID == p.getId()) {
+							primerak = p;
+							break;
+						}
+					}
+
+					try {
+						String komentar = parts[5];
+						int ocena = Integer.parseInt(parts[6]);
+						boolean moderisano = Boolean.parseBoolean(parts[7]);
+
+						Revizija revizija = new Revizija(komentar, ocena, moderisano);
+						ZauzetPrimerak zPrimerk = new ZauzetPrimerak(id, datumVracanja, rokProduzen, vracen, primerak,
+								revizija);
+						this.zPrimerci.add(zPrimerk);
+					} catch (Exception e) {
+						ZauzetPrimerak zPrimerk = new ZauzetPrimerak(primerak, id, datumVracanja, rokProduzen, vracen);
+						this.zPrimerci.add(zPrimerk);
 					}
 				}
-
-				try {
-					String komentar = parts[5];
-					int ocena = Integer.parseInt(parts[6]);
-					boolean moderisano = Boolean.parseBoolean(parts[7]);
-
-					Revizija revizija = new Revizija(komentar, ocena, moderisano);
-					ZauzetPrimerak zPrimerk = new ZauzetPrimerak(id, datumVracanja, rokProduzen, vracen, primerak,
-							revizija);
-					this.zPrimerci.add(zPrimerk);
-				} catch (Exception e) {
-					ZauzetPrimerak zPrimerk = new ZauzetPrimerak(primerak, id, datumVracanja, rokProduzen, vracen);
-					this.zPrimerci.add(zPrimerk);
-				}
+				br.close();
 			}
-			br.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -114,7 +113,7 @@ public class BazaZauzetPrimerak {
 			out.println(insertString);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -137,7 +136,7 @@ public class BazaZauzetPrimerak {
 			out.println(insertString);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

@@ -87,38 +87,41 @@ public class BazaPrimerak {
 						BazaIzdanja.getInstance().getIzdanja().get(0), true, 3);
 
 			}
-			BufferedReader br = new BufferedReader(new FileReader(file));
 
-			String st;
-			while ((st = br.readLine()) != null) {
-				String[] parts = st.split(";");
-				long id = Long.parseLong(parts[0]);
+			else {
+				BufferedReader br = new BufferedReader(new FileReader(file));
 
-				long knjID = Long.parseLong(parts[1]);
-				Knjiga knjiga = null;
-				BazaKnjiga bKnjiga = BazaKnjiga.getInstance();
-				for (Knjiga k : bKnjiga.getKnjige()) {
-					if (k.getId() == knjID) {
-						knjiga = k;
+				String st;
+				while ((st = br.readLine()) != null) {
+					String[] parts = st.split(";");
+					long id = Long.parseLong(parts[0]);
+
+					long knjID = Long.parseLong(parts[1]);
+					Knjiga knjiga = null;
+					BazaKnjiga bKnjiga = BazaKnjiga.getInstance();
+					for (Knjiga k : bKnjiga.getKnjige()) {
+						if (k.getId() == knjID) {
+							knjiga = k;
+						}
 					}
-				}
 
-				long izdID = Long.parseLong(parts[2]);
-				Izdanje izdanje = null;
-				BazaIzdanja bIZD = BazaIzdanja.getInstance();
-				for (Izdanje i : bIZD.getIzdanja()) {
-					if (izdID == i.getId()) {
-						izdanje = i;
+					long izdID = Long.parseLong(parts[2]);
+					Izdanje izdanje = null;
+					BazaIzdanja bIZD = BazaIzdanja.getInstance();
+					for (Izdanje i : bIZD.getIzdanja()) {
+						if (izdID == i.getId()) {
+							izdanje = i;
+						}
 					}
+
+					boolean izDov = Boolean.parseBoolean(parts[3]);
+					int polica = Integer.parseInt(parts[4]);
+
+					Primerak primerak = new Primerak(id, knjiga, izdanje, izDov, polica);
+					this.primerci.add(primerak);
 				}
-
-				boolean izDov = Boolean.parseBoolean(parts[3]);
-				int polica = Integer.parseInt(parts[4]);
-
-				Primerak primerak = new Primerak(id, knjiga, izdanje, izDov, polica);
-				this.primerci.add(primerak);
+				br.close();
 			}
-			br.close();
 		} catch (Exception e) {
 
 		}

@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import model.autor.Autor;
-import model.enums.VrstaAutora;
 import model.mesto.BazaMesto;
 import model.mesto.Mesto;
 import model.primerak.BazaZauzetPrimerak;
@@ -76,57 +74,62 @@ public class BazaClanova {
 				dodajClana("miso", "Miso", "Misic", "miso123", "1232152123123",
 						BazaMesto.getInstance().getMesta().get(1), "Rumenacka 2", VrstaClana.PENZIONER, datR1,
 						"06-1223-412", datumIstekaClanarine, "miskovic@gmail.com");
-
 			}
-			BufferedReader br = new BufferedReader(new FileReader(file));
 
-			String st;
-			while ((st = br.readLine()) != null) {
-				String[] parts = st.split(";");
-				long id = Long.parseLong(parts[0]);
-				String korisnickoIme = parts[1];
-				String ime = parts[2];
-				String prezime = parts[3];
-				String lozinka = parts[4];
-				String jmbg = parts[5];
+			else {
+				BufferedReader br = new BufferedReader(new FileReader(file));
 
-				Mesto mesto = null;
-				for (Mesto m : BazaMesto.getInstance().getMesta()) {
-					if (m.getNaziv().equals(parts[6])) {
-						mesto = m;
-					}
-				}
+				String st;
+				while ((st = br.readLine()) != null) {
+					String[] parts = st.split(";");
+					long id = Long.parseLong(parts[0]);
+					String korisnickoIme = parts[1];
+					String ime = parts[2];
+					String prezime = parts[3];
+					String lozinka = parts[4];
+					String jmbg = parts[5];
 
-				String adresa = parts[7];
-
-				VrstaClana vrsta = VrstaClana.valueOf(parts[8]);
-
-				LocalDate datumRodj = LocalDate.parse(parts[9]);
-				String pozivNaBr = parts[10];
-				LocalDate datumIstekaClan = LocalDate.parse(parts[11]);
-				String eMail = parts[12];
-
-				List<ZauzetPrimerak> iznPrimer = new ArrayList<ZauzetPrimerak>();
-				String[] iznajmljeniID = parts[13].split(",");
-				for (String iznajm : iznajmljeniID) {
-					long izID = Long.parseLong(iznajm);
-					BazaZauzetPrimerak bZPRIM = BazaZauzetPrimerak.getInstance();
-					for (ZauzetPrimerak zPrim : bZPRIM.getZPrimerci()) {
-						if (izID == zPrim.getId()) {
-							iznPrimer.add(zPrim);
+					Mesto mesto = null;
+					for (Mesto m : BazaMesto.getInstance().getMesta()) {
+						if (m.getNaziv().equals(parts[6])) {
+							mesto = m;
+							break;
 						}
 					}
+
+					String adresa = parts[7];
+
+					VrstaClana vrsta = VrstaClana.valueOf(parts[8]);
+
+					LocalDate datumRodj = LocalDate.parse(parts[9]);
+					String pozivNaBr = parts[10];
+					LocalDate datumIstekaClan = LocalDate.parse(parts[11]);
+					String eMail = parts[12];
+
+					String[] iznajmljeniID = parts[13].split(",");
+					List<ZauzetPrimerak> iznPrimer = new ArrayList<ZauzetPrimerak>();
+
+					if (!iznajmljeniID[0].equals("")) {
+						for (String iznajm : iznajmljeniID) {
+							long izID = Long.parseLong(iznajm);
+							BazaZauzetPrimerak bZPRIM = BazaZauzetPrimerak.getInstance();
+							for (ZauzetPrimerak zPrim : bZPRIM.getZPrimerci()) {
+								if (izID == zPrim.getId()) {
+									iznPrimer.add(zPrim);
+								}
+							}
+						}
+					}
+
+					boolean izbrisan = Boolean.parseBoolean(parts[14]);
+					Clan clan = new Clan(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa, vrsta,
+							datumRodj, pozivNaBr, datumIstekaClan, eMail, iznPrimer, izbrisan);
+					this.clanovi.add(clan);
 				}
-
-				boolean izbrisan = Boolean.parseBoolean(parts[14]);
-				Clan clan = new Clan(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa, vrsta, datumRodj,
-						pozivNaBr, datumIstekaClan, eMail, iznPrimer, izbrisan);
-				this.clanovi.add(clan);
-
+				br.close();
 			}
-			br.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -201,11 +204,12 @@ public class BazaClanova {
 			insertString += clan.getPozivNaBr() + ";";
 			insertString += clan.getDatumIstekaClanarine() + ";";
 			insertString += clan.geteMail() + ";";
+			insertString += clan.iznajmljeniToFile() + ";";
 			insertString += (clan.isObrisan()) ? Boolean.toString(true) : Boolean.toString(false);
 			out.println(insertString);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

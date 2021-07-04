@@ -6,14 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import model.autor.Autor;
 import model.enums.VrstaBibliotekara;
-import model.idnums.BazaID;
 import model.mesto.BazaMesto;
 import model.mesto.Mesto;
 
@@ -59,44 +56,46 @@ public class BazaBibliotekara {
 						BazaMesto.getInstance().getMesta().get(0), "Bulevar 12", getSveVrsteBibliotekara(), true);
 
 			}
-			BufferedReader br = new BufferedReader(new FileReader(file));
 
-			String st;
-			while ((st = br.readLine()) != null) {
-				String[] parts = st.split(";");
-				long id = Long.parseLong(parts[0]);
-				String korisnickoIme = parts[1];
-				String ime = parts[2];
-				String prezime = parts[3];
-				String lozinka = parts[4];
-				String jmbg = parts[5];
+			else {
+				BufferedReader br = new BufferedReader(new FileReader(file));
 
-				Mesto mesto = null;
-				for (Mesto m : BazaMesto.getInstance().getMesta()) {
-					if (m.getNaziv().equals(parts[6])) {
-						mesto = m;
+				String st;
+				while ((st = br.readLine()) != null) {
+					String[] parts = st.split(";");
+					long id = Long.parseLong(parts[0]);
+					String korisnickoIme = parts[1];
+					String ime = parts[2];
+					String prezime = parts[3];
+					String lozinka = parts[4];
+					String jmbg = parts[5];
+
+					Mesto mesto = null;
+					for (Mesto m : BazaMesto.getInstance().getMesta()) {
+						if (m.getNaziv().equals(parts[6])) {
+							mesto = m;
+							break;
+						}
 					}
+					String adresa = parts[7];
+
+					List<VrstaBibliotekara> uloge = new ArrayList<VrstaBibliotekara>();
+
+					String[] ulogSt = parts[8].split(",");
+					for (String ulogan : ulogSt) {
+						uloge.add(VrstaBibliotekara.valueOf(ulogan));
+					}
+					boolean admin = Boolean.valueOf(parts[9]);
+
+					Bibliotekar bibliotekar = new Bibliotekar(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto,
+							adresa, uloge, admin);
+
+					bibliotekari.add(bibliotekar);
 				}
-				String adresa = parts[7];
-
-				List<VrstaBibliotekara> uloge = null;
-
-				String[] ulogSt = parts[8].split(",");
-				for (String ulogan : ulogSt) {
-					uloge.add(VrstaBibliotekara.valueOf(ulogan));
-				}
-				VrstaClana vrsta = VrstaClana.valueOf(parts[8]);
-
-				boolean admin = Boolean.valueOf(parts[9]);
-
-				Bibliotekar bibliotekar = new Bibliotekar(id, korisnickoIme, ime, prezime, lozinka, jmbg, mesto, adresa,
-						uloge, admin);
-
-				bibliotekari.add(bibliotekar);
+				br.close();
 			}
-			br.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -180,7 +179,7 @@ public class BazaBibliotekara {
 			out.println(insertString);
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -191,23 +190,4 @@ public class BazaBibliotekara {
 
 		return retList;
 	}
-
-	/*
-	 * public void izbrisiClana(long id) { for (Knjiga i : knjige) { if (i.getId()
-	 * == id) { knjige.remove(i); break; } } }
-	 */
-
-	/*
-	 * public void izmeniBibliotekara(long id, String korisnickoIme, String ime,
-	 * String prezime, String lozinka, String jmbg, Mesto mesto, String adresa,
-	 * VrstaClana vrsta, LocalDate datumRodj, String pozivNaBr, LocalDate
-	 * datumIstekaClan) { for (Bibliotekar c : clanovi) { if (c.getId() == id) {
-	 * c.setKorisnickoIme(korisnickoIme); c.setIme(ime); c.setPrezime(prezime);
-	 * c.setLozinka(lozinka); c.setJmbg(jmbg); c.setMesto(mesto);
-	 * c.setAdresa(adresa); c.setVrsta(vrsta); c.setDatumRodjenja(datumRodj);
-	 * c.setPozivNaBr(pozivNaBr); c.setDatumIstekaClanarine(datumIstekaClan); } }
-	 * 
-	 * }
-	 */
-
 }

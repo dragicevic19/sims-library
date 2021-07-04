@@ -6,8 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 public class BazaID {
-	
-	
+
 	private static BazaID instance = null;
 
 	public static BazaID getInstance() {
@@ -16,7 +15,7 @@ public class BazaID {
 		}
 		return instance;
 	}
-	
+
 	private long idKorisnik;
 	private long idAutor;
 	private long idIzdanje;
@@ -24,8 +23,7 @@ public class BazaID {
 	private long idPrimerak;
 	private long idZPrimerak;
 
-	private BazaID()
-	{
+	private BazaID() {
 		initKorisnik();
 		initAutor();
 		initIzdanje();
@@ -33,18 +31,19 @@ public class BazaID {
 		initPrimerak();
 		initZPrimerak();
 	}
+
 	public long getIdKorisnik() {
 		this.idKorisnik++;
 		File idKfile = new File("./idFolder/idKorisnik.txt");
 		try {
-	    	FileWriter writeHere = new FileWriter(idKfile, false);
-	        String uling = Long.toString(idKorisnik);
-	        writeHere.append(uling);
-	        writeHere.close();
+			FileWriter writeHere = new FileWriter(idKfile, false);
+			String uling = Long.toString(idKorisnik);
+			writeHere.append(uling);
+			writeHere.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
-		
+
 		return idKorisnik;
 	}
 
@@ -52,12 +51,12 @@ public class BazaID {
 		this.idAutor++;
 		File idKfile = new File("./idFolder/idAutor.txt");
 		try {
-	    	FileWriter writeHere = new FileWriter(idKfile, false);
-	        String uling = Long.toString(idAutor);
-	        writeHere.append(uling);
-	        writeHere.close();
+			FileWriter writeHere = new FileWriter(idKfile, false);
+			String uling = Long.toString(idAutor);
+			writeHere.append(uling);
+			writeHere.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return idAutor;
 	}
@@ -66,12 +65,12 @@ public class BazaID {
 		this.idIzdanje++;
 		File idKfile = new File("./idFolder/idIzdanje.txt");
 		try {
-	    	FileWriter writeHere = new FileWriter(idKfile, false);
-	        String uling = Long.toString(idIzdanje);
-	        writeHere.append(uling);
-	        writeHere.close();
+			FileWriter writeHere = new FileWriter(idKfile, false);
+			String uling = Long.toString(idIzdanje);
+			writeHere.append(uling);
+			writeHere.close();
 		} catch (Exception e) {
-			
+
 		}
 		return idIzdanje;
 	}
@@ -80,178 +79,170 @@ public class BazaID {
 		this.idKnjiga++;
 		File idKfile = new File("./idFolder/idKnjiga.txt");
 		try {
-	    	FileWriter writeHere = new FileWriter(idKfile, false);
-	        String uling = Long.toString(idKnjiga);
-	        writeHere.append(uling);
-	        writeHere.close();
+			FileWriter writeHere = new FileWriter(idKfile, false);
+			String uling = Long.toString(idKnjiga);
+			writeHere.append(uling);
+			writeHere.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return idKnjiga;
 	}
-	
+
 	public long getIdPrimerak() {
 		this.idPrimerak++;
 		File idKfile = new File("./idFolder/idPrimerak.txt");
 		try {
-	    	FileWriter writeHere = new FileWriter(idKfile, false);
-	        String uling = Long.toString(idPrimerak);
-	        writeHere.append(uling);
-	        writeHere.close();
+			FileWriter writeHere = new FileWriter(idKfile, false);
+			String uling = Long.toString(idPrimerak);
+			writeHere.append(uling);
+			writeHere.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return idPrimerak;
 	}
-	
-	
+
 	public long getIdZPrimerak() {
 		this.idZPrimerak++;
 		File idKfile = new File("./idFolder/idZPrimerak.txt");
 		try {
-	    	FileWriter writeHere = new FileWriter(idKfile, false);
-	        String uling = Long.toString(idZPrimerak);
-	        writeHere.append(uling);
-	        writeHere.close();
+			FileWriter writeHere = new FileWriter(idKfile, false);
+			String uling = Long.toString(idZPrimerak);
+			writeHere.append(uling);
+			writeHere.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return idZPrimerak;
 	}
-	
-	private void initKorisnik()
-	{
+
+	private void initKorisnik() {
 		File file = new File("./idFolder/idKorisnik.txt");
 
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        String hello = "0";
-		        FileWriter writer = new FileWriter(file, true);
-		        writer.append(hello);
-		        writer.close();
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-		{
-			
-			this.idKorisnik = Long.parseLong(st);
-		}
-		br.close();
+				file.createNewFile();
+				String hello = "0";
+				FileWriter writer = new FileWriter(file, true);
+				writer.append(hello);
+				writer.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null) {
+
+				this.idKorisnik = Long.parseLong(st);
+			}
+			br.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
-	
-	private void initKnjiga()
-	{
+
+	private void initKnjiga() {
 		File file = new File("./idFolder/idKnjiga.txt");
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        String hello = "0";
-		        FileWriter writer = new FileWriter(file, true);
-		        writer.append(hello);
-		        writer.close();
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-			this.idKnjiga = Long.parseLong(st);
-		br.close();
+				file.createNewFile();
+				String hello = "0";
+				FileWriter writer = new FileWriter(file, true);
+				writer.append(hello);
+				writer.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null)
+				this.idKnjiga = Long.parseLong(st);
+			br.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
-	
-	private void initAutor()
-	{
+
+	private void initAutor() {
 		File file = new File("./idFolder/idAutor.txt");
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        String hello = "0";
-		        FileWriter writer = new FileWriter(file, true);
-		        writer.append(hello);
-		        writer.close();
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-			this.idAutor = Long.parseLong(st);
-		br.close();
+				file.createNewFile();
+				String hello = "0";
+				FileWriter writer = new FileWriter(file, true);
+				writer.append(hello);
+				writer.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null)
+				this.idAutor = Long.parseLong(st);
+			br.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
-	
-	private void initIzdanje()
-	{
+
+	private void initIzdanje() {
 		File file = new File("./idFolder/idIzdanje.txt");
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        String hello = "0";
-		        FileWriter writer = new FileWriter(file, true);
-		        writer.append(hello);
-		        writer.close();
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-			this.idIzdanje = Long.parseLong(st);
-		br.close();
+				file.createNewFile();
+				String hello = "0";
+				FileWriter writer = new FileWriter(file, true);
+				writer.append(hello);
+				writer.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null)
+				this.idIzdanje = Long.parseLong(st);
+			br.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
-	
-	private void initPrimerak()
-	{
+
+	private void initPrimerak() {
 		File file = new File("./idFolder/idPrimerak.txt");
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        String hello = "0";
-		        FileWriter writer = new FileWriter(file, true);
-		        writer.append(hello);
-		        writer.close();
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-			this.idPrimerak = Long.parseLong(st);
-		br.close();
+				file.createNewFile();
+				String hello = "0";
+				FileWriter writer = new FileWriter(file, true);
+				writer.append(hello);
+				writer.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null)
+				this.idPrimerak = Long.parseLong(st);
+			br.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
-	
-	private void initZPrimerak()
-	{
+
+	private void initZPrimerak() {
 		File file = new File("./idFolder/idZPrimerak.txt");
 		try {
 			if (!file.exists()) {
-		        file.createNewFile();
-		        String hello = "0";
-		        FileWriter writer = new FileWriter(file, true);
-		        writer.append(hello);
-		        writer.close();
-		    }
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		  
-		String st;
-		while ((st = br.readLine()) != null)
-			this.idZPrimerak = Long.parseLong(st);
-		br.close();
+				file.createNewFile();
+				String hello = "0";
+				FileWriter writer = new FileWriter(file, true);
+				writer.append(hello);
+				writer.close();
+			}
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String st;
+			while ((st = br.readLine()) != null)
+				this.idZPrimerak = Long.parseLong(st);
+			br.close();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 

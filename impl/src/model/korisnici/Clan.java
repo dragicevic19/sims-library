@@ -140,4 +140,17 @@ public class Clan extends Korisnik {
 
 	}
 
+	public String iznajmljeniToFile() {
+		String str = "";
+
+		if (iznajmljeniPrimerci.size() == 0)
+			return str;
+
+		for (ZauzetPrimerak zauzetPrimerak : iznajmljeniPrimerci) {
+			str += zauzetPrimerak.getId() + ",";
+		}
+		return (String) str.subSequence(0, str.lastIndexOf(","));
+
+	}
+
 }

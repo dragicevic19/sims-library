@@ -11,7 +11,6 @@ import java.util.List;
 
 import model.autor.Autor;
 import model.autor.BazaAutor;
-import model.enums.VrstaAutora;
 import model.enums.Zanr;
 import model.idnums.BazaID;
 import model.primerak.BazaPrimerak;
@@ -65,50 +64,53 @@ public class BazaKnjiga {
 						BazaAutor.getInstance().getAutori(), zanrovi);
 
 			}
-			BufferedReader br = new BufferedReader(new FileReader(file));
 
-			String st;
-			while ((st = br.readLine()) != null) {
-				String[] parts = st.split(";");
+			else {
+				BufferedReader br = new BufferedReader(new FileReader(file));
 
-				long id = Long.parseLong(parts[0]);
+				String st;
+				while ((st = br.readLine()) != null) {
+					String[] parts = st.split(";");
 
-				String naslov = parts[1];
+					long id = Long.parseLong(parts[0]);
 
-				String format = parts[2];
+					String naslov = parts[1];
 
-				String opis = parts[3];
+					String format = parts[2];
 
-				String[] tagList = parts[4].split(",");
-				List<String> tagovi = new ArrayList<String>();
-				for (String tag : tagList) {
-					tagovi.add(tag);
-				}
+					String opis = parts[3];
 
-				String[] autorIDList = parts[5].split(",");
-				List<Autor> autori = new ArrayList<Autor>();
-				for (String autID : autorIDList) {
-					long idAut = Long.parseLong(autID);
-					for (Autor autor : BazaAutor.getInstance().getAutori()) {
-						if (idAut == autor.getId()) {
-							autori.add(autor);
+					String[] tagList = parts[4].split(",");
+					List<String> tagovi = new ArrayList<String>();
+					for (String tag : tagList) {
+						tagovi.add(tag);
+					}
+
+					String[] autorIDList = parts[5].split(",");
+					List<Autor> autori = new ArrayList<Autor>();
+					for (String autID : autorIDList) {
+						long idAut = Long.parseLong(autID);
+						for (Autor autor : BazaAutor.getInstance().getAutori()) {
+							if (idAut == autor.getId()) {
+								autori.add(autor);
+							}
 						}
 					}
-				}
 
-				String[] listZanr = parts[6].split(",");
-				List<Zanr> zanrovi = new ArrayList<Zanr>();
-				for (String z : listZanr) {
-					Zanr zanr = Zanr.valueOf(z);
-					zanrovi.add(zanr);
-				}
+					String[] listZanr = parts[6].split(",");
+					List<Zanr> zanrovi = new ArrayList<Zanr>();
+					for (String z : listZanr) {
+						Zanr zanr = Zanr.valueOf(z);
+						zanrovi.add(zanr);
+					}
 
-				Knjiga knjiga = new Knjiga(id, naslov, format, opis, tagovi, autori, zanrovi);
-				this.knjige.add(knjiga);
+					Knjiga knjiga = new Knjiga(id, naslov, format, opis, tagovi, autori, zanrovi);
+					this.knjige.add(knjiga);
+				}
+				br.close();
 			}
-			br.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 	}
@@ -207,7 +209,7 @@ public class BazaKnjiga {
 			out.println(insertString);
 
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -220,8 +222,9 @@ public class BazaKnjiga {
 			writer.append("");
 			writer.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
+
 		List<Knjiga> temp = new ArrayList<>(this.knjige);
 		for (int i = 0; i < temp.size(); i++) {
 			Knjiga knjiga = temp.get(i);

@@ -35,13 +35,13 @@ public class ZauzetPrimerak {
 		this.id = id;
 		this.primerak = p;
 	}
-	
+
 	public ZauzetPrimerak(Primerak p) {
 		this();
 		this.id = BazaID.getInstance().getIdZPrimerak();
 		this.primerak = p;
 	}
-	
+
 	public ZauzetPrimerak(Primerak p, long id, LocalDate datumVracanja, boolean rokProduzen, boolean vracen) {
 		this.id = id;
 		this.vracen = vracen;
