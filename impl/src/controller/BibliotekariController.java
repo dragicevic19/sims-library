@@ -2,9 +2,13 @@ package controller;
 
 import java.time.LocalDate;
 
+import dto.BibliotekarDTO;
 import dto.ClanDTO;
+import model.idnums.BazaID;
+import model.korisnici.BazaBibliotekara;
 import model.korisnici.BazaClanova;
 import model.korisnici.BazaKorisnika;
+import model.korisnici.Bibliotekar;
 import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
 import model.primerak.Primerak;
@@ -26,7 +30,7 @@ public class BibliotekariController {
 
 	public void dodajClana(ClanDTO cDTO) {
 		Clan noviClan = new Clan();
-		noviClan.setId(BazaKorisnika.getInstance().generateId());
+		noviClan.setId(BazaID.getInstance().getIdKorisnik());
 		noviClan.setIme(cDTO.getIme());
 		noviClan.setPrezime(cDTO.getPrezime());
 		noviClan.setKorisnickoIme(cDTO.getKorisnickoIme());
@@ -60,5 +64,21 @@ public class BibliotekariController {
 
 	public void blokirajClana(Clan c) {
 		c.setObrisan(true);
+	}
+	
+	public void dodajBibliotekara(BibliotekarDTO bDTO) {
+		Bibliotekar noviBibliotekar = new Bibliotekar();
+		noviBibliotekar.setId(BazaID.getInstance().getIdKorisnik());
+		noviBibliotekar.setIme(bDTO.getIme());
+		noviBibliotekar.setPrezime(bDTO.getPrezime());
+		noviBibliotekar.setKorisnickoIme(bDTO.getKorisnickoIme());
+		noviBibliotekar.setLozinka(bDTO.getLozinka());
+		noviBibliotekar.setAdresa(bDTO.getAdresa());
+		noviBibliotekar.setMesto(bDTO.getMesto());
+		noviBibliotekar.setUloge(BazaBibliotekara.getInstance().getSveVrsteBibliotekara());
+		noviBibliotekar.setJmbg(bDTO.getJmbg());
+
+
+		BazaBibliotekara.getInstance().dodajBibliotekara(noviBibliotekar);
 	}
 }

@@ -27,7 +27,6 @@ import javax.swing.table.TableRowSorter;
 
 import controller.KnjigeController;
 import controller.PrimerciController;
-import jdk.nashorn.internal.scripts.JO;
 import model.knjiga.Knjiga;
 
 public class IznajmljivanjeFrame extends JFrame {

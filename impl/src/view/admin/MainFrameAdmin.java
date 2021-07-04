@@ -62,12 +62,14 @@ public class MainFrameAdmin extends JFrame {
 		JButton btnIznajmi = new JButton("Iznajmi knjigu");
 		JButton btnRegistracija = new JButton("Registracija clana");
 		JButton btnBlokiranje = new JButton("Blokiranje clana");
+		JButton btnRegBib = new JButton("Registracija bibliotekara");
 		JButton btnPregTrenZaduz = new JButton("Trenutna zaduzenja");
 		JButton btnPregIstorije = new JButton("Istorija zaduzenja");
 		JButton btnRezervacije = new JButton("Rezervacije");
 
 		panelTop.add(btnRegistracija);
 		panelTop.add(btnBlokiranje);
+		panelTop.add(btnRegBib);
 		panelTop.add(btnIznajmi);
 		panelTop.add(btnPregTrenZaduz);
 		panelTop.add(btnPregIstorije);
@@ -131,6 +133,14 @@ public class MainFrameAdmin extends JFrame {
 			}
 		});
 
+		btnRegBib.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RegistracijaBibliotekaraFrame.getInstance();
+			}
+		});
+		
 		btnPregTrenZaduz.addActionListener(new ActionListener() {
 
 			@Override
