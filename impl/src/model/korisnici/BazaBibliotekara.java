@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -13,6 +14,7 @@ import java.util.Vector;
 import model.enums.VrstaBibliotekara;
 import model.mesto.BazaMesto;
 import model.mesto.Mesto;
+import model.primerak.ZauzetPrimerak;
 
 public class BazaBibliotekara {
 
@@ -183,6 +185,44 @@ public class BazaBibliotekara {
 		}
 	}
 
+	
+	public void izmeniBibliotekara(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
+			Mesto mesto, String adresa, List<VrstaBibliotekara> vrstaB, boolean admin) {
+
+		File file = new File("./Baza/bibliotekari.txt");
+		try {
+			FileWriter writer = new FileWriter(file, false);
+			writer.append("");
+			writer.close();
+		} catch (Exception e) {
+
+		}
+		List<Bibliotekar> temp = new ArrayList<Bibliotekar>(this.bibliotekari);
+		for (int i = 0; i < temp.size(); i++) {
+			Bibliotekar c = temp.get(i);
+			if (c.getId() == id) {
+				c.setKorisnickoIme(korisnickoIme);
+				c.setIme(ime);
+				c.setPrezime(prezime);
+				c.setLozinka(lozinka);
+				c.setJmbg(jmbg);
+				c.setMesto(mesto);
+				c.setAdresa(adresa);
+				c.setUloge(vrstaB);
+				c.setAdmin(admin);
+				this.bibliotekari.remove(0);
+
+				dodajBibliotekara(c);
+			} else {
+
+				this.bibliotekari.remove(0);
+
+				dodajBibliotekara(c);
+			}
+		}
+	}
+
+	
 	public Vector<VrstaBibliotekara> getSveVrsteBibliotekara() {
 		Vector<VrstaBibliotekara> retList = new Vector<VrstaBibliotekara>();
 		retList.add(VrstaBibliotekara.IZDAVANJE);

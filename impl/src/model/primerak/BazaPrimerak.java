@@ -212,13 +212,34 @@ public class BazaPrimerak {
 
 	public void izmeniPrimerak(long id, Knjiga knjiga, Izdanje izdanje, boolean zauzet, boolean iznosDozvoljen,
 			int polica) {
-		for (Primerak p : primerci) {
-			if (p.getId() == id) {
-				p.setKnjiga(knjiga);
-				p.setIzdanje(izdanje);
-				p.setZauzet(zauzet);
-				p.setIznosDozvoljen(iznosDozvoljen);
-				p.setPolica(polica);
+		
+		File file = new File("./Baza/primerci.txt");
+		try {
+			FileWriter writer = new FileWriter(file, false);
+			writer.append("");
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<Primerak> temp = new ArrayList<>(this.primerci);
+		for (int i = 0; i < temp.size(); i++) {
+			Primerak primerak = temp.get(i);
+			if (primerak.getId() == id) {
+				primerak.setKnjiga(knjiga);
+				primerak.setIzdanje(izdanje);
+				primerak.setZauzet(zauzet);
+				primerak.setIznosDozvoljen(iznosDozvoljen);
+				primerak.setPolica(polica);
+
+				this.primerci.remove(0);
+
+				dodajPrimerak(primerak);
+			} else {
+
+				this.primerci.remove(0);
+
+				dodajPrimerak(primerak);
 			}
 		}
 	}
@@ -237,6 +258,7 @@ public class BazaPrimerak {
 
 	public void iznajmljenPrimerak(Primerak p) {
 		p.setZauzet(true);
+		izmeniPrimerak(p.getId(),p.getKnjiga(),p.getIzdanje(),p.isZauzet(),p.isIznosDozvoljen(),p.getPolica());
 	}
 
 	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerci() {

@@ -215,7 +215,7 @@ public class BazaClanova {
 
 	public void izmeniClana(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
 			Mesto mesto, String adresa, VrstaClana vrsta, LocalDate datumRodj, String pozivNaBr,
-			LocalDate datumIstekaClan) {
+			LocalDate datumIstekaClan, List<ZauzetPrimerak> zauzetiPrimerci, boolean isObrisan) {
 
 		File file = new File("./Baza/clanovi.txt");
 		try {
@@ -240,7 +240,8 @@ public class BazaClanova {
 				c.setDatumRodjenja(datumRodj);
 				c.setPozivNaBr(pozivNaBr);
 				c.setDatumIstekaClanarine(datumIstekaClan);
-
+				c.setIznajmljeniPrimerci(zauzetiPrimerci);
+				c.setObrisan(isObrisan);
 				this.clanovi.remove(0);
 
 				dodajClana(c);
@@ -283,7 +284,10 @@ public class BazaClanova {
 
 	public void dodajIznajmljeniPrimerakZaClana(Clan clan, ZauzetPrimerak zp) {
 		clan.getIznajmljeniPrimerci().add(zp);
-
+		izmeniClana(clan.getId(), clan.getKorisnickoIme(), clan.getIme(), clan.getPrezime(), clan.getLozinka(), clan.getJmbg(),
+				clan.getMesto(), clan.getAdresa(), clan.getVrsta(), clan.getDatumRodjenja(), clan.getPozivNaBr(), 
+				clan.getDatumIstekaClanarine(), clan.getIznajmljeniPrimerci(), clan.isObrisan());
+		
 	}
 
 	public String generateRandomPassword(int len) { // da li ovo treba u kontroler ili ovde?
