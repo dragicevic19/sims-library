@@ -7,9 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.idnums.BazaID;
+import model.izdanje.Izdanje;
+import model.knjiga.Knjiga;
 
 public class BazaZauzetPrimerak {
 
@@ -137,6 +140,41 @@ public class BazaZauzetPrimerak {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	
+	public void izmeniZPrimerak(long id, LocalDate datumVracanja, boolean rokProduzen, boolean vracen, Primerak primerak,
+			Revizija revizija) {
+		
+		File file = new File("./Baza/zauzetiPrimerci.txt");
+		try {
+			FileWriter writer = new FileWriter(file, false);
+			writer.append("");
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<ZauzetPrimerak> temp = new ArrayList<>(this.zPrimerci);
+		for (int i = 0; i < temp.size(); i++) {
+			ZauzetPrimerak zprimerak = temp.get(i);
+			if (zprimerak.getId() == id) {
+				zprimerak.setDatumVracanja(datumVracanja);
+				zprimerak.setRokProduzen(rokProduzen);
+				zprimerak.setVracen(vracen);
+				zprimerak.setPrimerak(primerak);
+				zprimerak.setRevizija(revizija);
+
+				this.zPrimerci.remove(0);
+
+				dodajZPrimerak(zprimerak);
+			} else {
+
+				this.zPrimerci.remove(0);
+
+				dodajZPrimerak(zprimerak);
+			}
 		}
 	}
 

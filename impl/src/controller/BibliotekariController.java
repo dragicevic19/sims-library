@@ -3,10 +3,12 @@ package controller;
 import java.time.LocalDate;
 
 import dto.ClanDTO;
+import model.idnums.BazaID;
 import model.korisnici.BazaClanova;
 import model.korisnici.BazaKorisnika;
 import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
+import model.primerak.BazaZauzetPrimerak;
 import model.primerak.Primerak;
 import model.primerak.ZauzetPrimerak;
 
@@ -50,15 +52,19 @@ public class BibliotekariController {
 
 		ZauzetPrimerak zp = new ZauzetPrimerak(p);
 		zp.setDatumVracanja(LocalDate.now().plusDays(BazaClanova.getInstance().getRokZaVracanjeZaClana(clan)));
-		zp.setId(BazaPrimerak.getInstance().generateIdZauzetog());
+		zp.setId(BazaID.getInstance().getIdZPrimerak());
 		BazaClanova.getInstance().dodajIznajmljeniPrimerakZaClana(clan, zp);
 
 		BazaPrimerak.getInstance().iznajmljenPrimerak(p);
+		BazaZauzetPrimerak.getInstance().dodajZPrimerak(zp);
 
 		return true;
 	}
 
-	public void blokirajClana(Clan c) {
-		c.setObrisan(true);
+	public void blokirajClana(Clan clan) {
+		clan.setObrisan(true);
+		BazaClanova.getInstance().izmeniClana(clan.getId(), clan.getKorisnickoIme(), clan.getIme(), clan.getPrezime(), clan.getLozinka(), clan.getJmbg(),
+				clan.getMesto(), clan.getAdresa(), clan.getVrsta(), clan.getDatumRodjenja(), clan.getPozivNaBr(), 
+				clan.getDatumIstekaClanarine(), clan.getIznajmljeniPrimerci(), clan.isObrisan());
 	}
 }

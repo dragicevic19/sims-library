@@ -7,6 +7,7 @@ import model.knjiga.Knjiga;
 import model.korisnici.BazaClanova;
 import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
+import model.primerak.BazaZauzetPrimerak;
 import model.primerak.Primerak;
 import model.primerak.Revizija;
 import model.primerak.ZauzetPrimerak;
@@ -53,6 +54,9 @@ public class PrimerciController {
 	public void vracanjePrimerka(ZauzetPrimerak z) {
 		z.setVracen(true);
 		z.getPrimerak().setZauzet(false);
+		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z.getId(), z.getDatumVracanja(), z.isRokProduzen(), z.isVracen(), z.getPrimerak(), z.getRevizija());
+		BazaPrimerak.getInstance().izmeniPrimerak(z.getPrimerak().getId(), z.getPrimerak().getKnjiga(), z.getPrimerak().getIzdanje(), z.getPrimerak().isZauzet(),
+				z.getPrimerak().isIznosDozvoljen(), z.getPrimerak().getPolica());
 	}
 
 	public boolean produzenjeRokaZaVracanjePrimerka(ZauzetPrimerak z, Clan clan) {
@@ -61,6 +65,8 @@ public class PrimerciController {
 
 		z.setRokProduzen(true);
 		z.setDatumVracanja(z.getDatumVracanja().plusDays(BazaClanova.getInstance().getRokZaVracanjeZaClana(clan)));
+		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z.getId(), z.getDatumVracanja(), z.isRokProduzen(), z.isVracen(), z.getPrimerak(), z.getRevizija());
+
 		return true;
 	}
 
@@ -68,9 +74,11 @@ public class PrimerciController {
 		return z.isVracen();
 	}
 
-	public void napisanaRevizija(Integer ocena, String komentar, ZauzetPrimerak zauzetPrimerak) {
+	public void napisanaRevizija(Integer ocena, String komentar, ZauzetPrimerak z) {
 		Revizija r = new Revizija(komentar, ocena, false);
-		zauzetPrimerak.setRevizija(r);
+		z.setRevizija(r);
+		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z.getId(), z.getDatumVracanja(), z.isRokProduzen(), z.isVracen(), z.getPrimerak(), z.getRevizija());
+
 
 	}
 
