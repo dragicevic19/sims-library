@@ -1,3 +1,3 @@
-3;luka;Luka;Lukic;luka123;1231231231232;Loznica;Bulevar 12;IZDAVANJE,OBRADA;false
+3;luka;Luka;Lukic;luka;1231231231232;Loznica;Bulevar 12;IZDAVANJE,OBRADA;false
 4;jova;Jovan;Jovanovic;jova123;1231231231232;Loznica;Bulevar 12;IZDAVANJE,OBRADA;true
 5;janos;janci;janos;uv4Tt8ltz9;1912000840001;Novi Sad;Rumenacka 3;IZDAVANJE,OBRADA;false

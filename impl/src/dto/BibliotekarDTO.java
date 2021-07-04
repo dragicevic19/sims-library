@@ -1,9 +1,5 @@
 package dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.enums.VrstaBibliotekara;
 import model.mesto.Mesto;
 
 public class BibliotekarDTO {
@@ -19,7 +15,7 @@ public class BibliotekarDTO {
 	private Boolean admin;
 
 	public BibliotekarDTO(String ime, String prezime, String korisnickoIme, String lozinka, String jmbg, Mesto mesto,
-			String adresa,String eMail, Boolean admin) {
+			String adresa, String eMail, Boolean admin) {
 		super();
 		this.ime = ime;
 		this.prezime = prezime;
@@ -95,14 +91,13 @@ public class BibliotekarDTO {
 	public void seteMail(String eMail) {
 		this.eMail = eMail;
 	}
-	
+
 	public Boolean getAdmin() {
 		return admin;
 	}
-	
+
 	public void setAdmin(Boolean admin) {
 		this.admin = admin;
 	}
 
-	
 }

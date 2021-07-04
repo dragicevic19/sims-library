@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import model.autor.Autor;
 import model.enums.VrstaAutora;
 import model.idnums.BazaID;
@@ -114,10 +116,12 @@ public class BazaPrimerak {
 						}
 					}
 
-					boolean izDov = Boolean.parseBoolean(parts[3]);
-					int polica = Integer.parseInt(parts[4]);
+					boolean zauzet = Boolean.parseBoolean(parts[3]);
 
-					Primerak primerak = new Primerak(id, knjiga, izdanje, izDov, polica);
+					boolean izDov = Boolean.parseBoolean(parts[4]);
+					int polica = Integer.parseInt(parts[5]);
+
+					Primerak primerak = new Primerak(id, knjiga, izdanje, zauzet, izDov, polica);
 					this.primerci.add(primerak);
 				}
 				br.close();
@@ -201,6 +205,7 @@ public class BazaPrimerak {
 			insertString += Long.toString(primerak.getId()) + ";";
 			insertString += Long.toString(primerak.getKnjiga().getId()) + ";";
 			insertString += Long.toString(primerak.getIzdanje().getId()) + ";";
+			insertString += Boolean.toString(primerak.isZauzet()) + ";";
 			insertString += Boolean.toString(primerak.isIznosDozvoljen()) + ";";
 			insertString += Integer.toString(primerak.getPolica()) + ";";
 			out.println(insertString);
@@ -210,9 +215,8 @@ public class BazaPrimerak {
 		}
 	}
 
-	public void izmeniPrimerak(long id, Knjiga knjiga, Izdanje izdanje, boolean zauzet, boolean iznosDozvoljen,
-			int polica) {
-		
+	public void izmeniPrimerak(Primerak p) {
+
 		File file = new File("./Baza/primerci.txt");
 		try {
 			FileWriter writer = new FileWriter(file, false);
@@ -225,12 +229,12 @@ public class BazaPrimerak {
 		List<Primerak> temp = new ArrayList<>(this.primerci);
 		for (int i = 0; i < temp.size(); i++) {
 			Primerak primerak = temp.get(i);
-			if (primerak.getId() == id) {
-				primerak.setKnjiga(knjiga);
-				primerak.setIzdanje(izdanje);
-				primerak.setZauzet(zauzet);
-				primerak.setIznosDozvoljen(iznosDozvoljen);
-				primerak.setPolica(polica);
+			if (primerak.getId() == p.getId()) {
+				primerak.setKnjiga(p.getKnjiga());
+				primerak.setIzdanje(p.getIzdanje());
+				primerak.setZauzet(p.isZauzet());
+				primerak.setIznosDozvoljen(p.isIznosDozvoljen());
+				primerak.setPolica(p.getPolica());
 
 				this.primerci.remove(0);
 
@@ -258,7 +262,7 @@ public class BazaPrimerak {
 
 	public void iznajmljenPrimerak(Primerak p) {
 		p.setZauzet(true);
-		izmeniPrimerak(p.getId(),p.getKnjiga(),p.getIzdanje(),p.isZauzet(),p.isIznosDozvoljen(),p.getPolica());
+		izmeniPrimerak(p);
 	}
 
 	public List<ZauzetPrimerak> getTrenutnoIznajmljeniPrimerci() {

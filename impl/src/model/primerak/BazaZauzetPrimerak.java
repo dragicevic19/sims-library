@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.idnums.BazaID;
-import model.izdanje.Izdanje;
-import model.knjiga.Knjiga;
 
 public class BazaZauzetPrimerak {
 
@@ -36,7 +34,10 @@ public class BazaZauzetPrimerak {
 	}
 
 	private void initZPrimerci() {
-		File file = new File("./idFolder/zauzetiPrimerci.txt");
+
+		zPrimerci = new ArrayList<ZauzetPrimerak>();
+
+		File file = new File("./Baza/zauzetiPrimerci.txt");
 
 		try {
 			if (!file.exists()) {
@@ -107,12 +108,17 @@ public class BazaZauzetPrimerak {
 				PrintWriter out = new PrintWriter(bw)) {
 			String insertString = "";
 			insertString += Long.toString(zPrimer.getId()) + ";";
+			insertString += zPrimer.getDatumVracanja().toString() + ";";
 			insertString += Boolean.toString(zPrimer.isRokProduzen()) + ";";
 			insertString += Boolean.toString(zPrimer.isVracen()) + ";";
 			insertString += Long.toString(zPrimer.getPrimerak().getId()) + ";";
-			insertString += zPrimer.getRevizija().getKomentar() + ";";
-			insertString += Integer.toString(zPrimer.getRevizija().getOcena()) + ";";
-			insertString += Boolean.toString(zPrimer.getRevizija().isModerisano());
+			try {
+				insertString += zPrimer.getRevizija().getKomentar() + ";";
+				insertString += Integer.toString(zPrimer.getRevizija().getOcena()) + ";";
+				insertString += Boolean.toString(zPrimer.getRevizija().isModerisano());
+			} catch (Exception e) {
+				insertString = (String) insertString.subSequence(0, insertString.lastIndexOf(";"));
+			}
 			out.println(insertString);
 
 		} catch (Exception e) {
@@ -135,18 +141,16 @@ public class BazaZauzetPrimerak {
 			insertString += Long.toString(zPrimer.getId()) + ";";
 			insertString += Boolean.toString(zPrimer.isRokProduzen()) + ";";
 			insertString += Boolean.toString(zPrimer.isVracen()) + ";";
-			insertString += Long.toString(zPrimer.getPrimerak().getId()) + ";";
+			insertString += Long.toString(zPrimer.getPrimerak().getId());
 			out.println(insertString);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public void izmeniZPrimerak(long id, LocalDate datumVracanja, boolean rokProduzen, boolean vracen, Primerak primerak,
-			Revizija revizija) {
-		
+
+	public void izmeniZPrimerak(ZauzetPrimerak zauzet) {
+
 		File file = new File("./Baza/zauzetiPrimerci.txt");
 		try {
 			FileWriter writer = new FileWriter(file, false);
@@ -159,12 +163,12 @@ public class BazaZauzetPrimerak {
 		List<ZauzetPrimerak> temp = new ArrayList<>(this.zPrimerci);
 		for (int i = 0; i < temp.size(); i++) {
 			ZauzetPrimerak zprimerak = temp.get(i);
-			if (zprimerak.getId() == id) {
-				zprimerak.setDatumVracanja(datumVracanja);
-				zprimerak.setRokProduzen(rokProduzen);
-				zprimerak.setVracen(vracen);
-				zprimerak.setPrimerak(primerak);
-				zprimerak.setRevizija(revizija);
+			if (zprimerak.getId() == zauzet.getId()) {
+				zprimerak.setDatumVracanja(zauzet.getDatumVracanja());
+				zprimerak.setRokProduzen(zauzet.isRokProduzen());
+				zprimerak.setVracen(zauzet.isVracen());
+				zprimerak.setPrimerak(zauzet.getPrimerak());
+				zprimerak.setRevizija(zauzet.getRevizija());
 
 				this.zPrimerci.remove(0);
 

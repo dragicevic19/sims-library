@@ -51,12 +51,14 @@ public class PrimerciController {
 		return BazaPrimerak.getInstance().zauzetiPrimerakToCell(z, clan, col);
 	}
 
-	public void vracanjePrimerka(ZauzetPrimerak z) {
-		z.setVracen(true);
-		z.getPrimerak().setZauzet(false);
-		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z.getId(), z.getDatumVracanja(), z.isRokProduzen(), z.isVracen(), z.getPrimerak(), z.getRevizija());
-		BazaPrimerak.getInstance().izmeniPrimerak(z.getPrimerak().getId(), z.getPrimerak().getKnjiga(), z.getPrimerak().getIzdanje(), z.getPrimerak().isZauzet(),
-				z.getPrimerak().isIznosDozvoljen(), z.getPrimerak().getPolica());
+	public void vracanjePrimerka(ZauzetPrimerak zauzet) {
+		zauzet.setVracen(true);
+		Primerak primerak = zauzet.getPrimerak();
+		primerak.setZauzet(false);
+
+		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(zauzet);
+
+		BazaPrimerak.getInstance().izmeniPrimerak(primerak);
 	}
 
 	public boolean produzenjeRokaZaVracanjePrimerka(ZauzetPrimerak z, Clan clan) {
@@ -65,8 +67,8 @@ public class PrimerciController {
 
 		z.setRokProduzen(true);
 		z.setDatumVracanja(z.getDatumVracanja().plusDays(BazaClanova.getInstance().getRokZaVracanjeZaClana(clan)));
-		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z.getId(), z.getDatumVracanja(), z.isRokProduzen(), z.isVracen(), z.getPrimerak(), z.getRevizija());
 
+		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z);
 		return true;
 	}
 
@@ -77,8 +79,7 @@ public class PrimerciController {
 	public void napisanaRevizija(Integer ocena, String komentar, ZauzetPrimerak z) {
 		Revizija r = new Revizija(komentar, ocena, false);
 		z.setRevizija(r);
-		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z.getId(), z.getDatumVracanja(), z.isRokProduzen(), z.isVracen(), z.getPrimerak(), z.getRevizija());
-
+		BazaZauzetPrimerak.getInstance().izmeniZPrimerak(z);
 
 	}
 

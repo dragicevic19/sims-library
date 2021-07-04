@@ -114,16 +114,7 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void initMainGUI() {
-
-		if (this.ulogovaniKorisnik instanceof Clan)
-			MainFrameClan.getInstance((Clan) this.ulogovaniKorisnik);
-
-		else if (this.ulogovaniKorisnik instanceof Bibliotekar) {
-			if (((Bibliotekar) ulogovaniKorisnik).isAdmin())
-				MainFrameAdmin.getInstance((Bibliotekar) this.ulogovaniKorisnik);
-			else
-				MainFrameBibliotekar.getInstance((Bibliotekar) this.ulogovaniKorisnik);
-		}
+		ulogovaniKorisnik.prijava();
 	}
 
 }

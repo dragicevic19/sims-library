@@ -32,6 +32,10 @@ public abstract class Korisnik {
 		this.obrisan = false;
 	}
 
+	public abstract void prijava();
+
+	public abstract void izmeniKorisnika();
+
 	public long getId() {
 		return id;
 	}
@@ -103,11 +107,5 @@ public abstract class Korisnik {
 	public void setObrisan(boolean obrisan) {
 		this.obrisan = obrisan;
 	}
-
-	abstract void prijava();
-
-	abstract void odjava();
-
-	abstract void promenaLozinke();
 
 }

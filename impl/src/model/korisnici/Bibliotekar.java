@@ -6,6 +6,8 @@ import java.util.List;
 import model.enums.VrstaBibliotekara;
 import model.enums.Zanr;
 import model.mesto.Mesto;
+import view.admin.MainFrameAdmin;
+import view.bibliotekar.MainFrameBibliotekar;
 
 public class Bibliotekar extends Korisnik {
 
@@ -30,6 +32,19 @@ public class Bibliotekar extends Korisnik {
 		this.admin = admin;
 	}
 
+	@Override
+	public void prijava() {
+		if (admin)
+			MainFrameAdmin.getInstance(this);
+		else
+			MainFrameBibliotekar.getInstance(this);
+	}
+
+	@Override
+	public void izmeniKorisnika() {
+		BazaBibliotekara.getInstance().izmeniBibliotekara(this);
+	}
+
 	public List<VrstaBibliotekara> getUloge() {
 		return uloge;
 	}
@@ -44,24 +59,6 @@ public class Bibliotekar extends Korisnik {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
-	}
-
-	@Override
-	void prijava() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	void odjava() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	void promenaLozinke() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public String ulogeToString() {

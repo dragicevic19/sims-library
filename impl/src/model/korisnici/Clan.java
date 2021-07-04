@@ -6,6 +6,7 @@ import java.util.List;
 
 import model.mesto.Mesto;
 import model.primerak.ZauzetPrimerak;
+import view.clan.MainFrameClan;
 
 public class Clan extends Korisnik {
 
@@ -55,6 +56,16 @@ public class Clan extends Korisnik {
 		this.obrisan = izbrisan;
 		this.eMail = eMail;
 		// this.rezervisaniPrimerci = new ArrayList<RezervacijaKnjige>();
+	}
+
+	@Override
+	public void prijava() {
+		MainFrameClan.getInstance(this);
+	}
+
+	@Override
+	public void izmeniKorisnika() {
+		BazaClanova.getInstance().izmeniClana(this);
 	}
 
 	public VrstaClana getVrsta() {
@@ -121,24 +132,6 @@ public class Clan extends Korisnik {
 	 * public void setRezervisaniPrimerci(List<RezervacijaKnjige>
 	 * rezervisaniPrimerci) { this.rezervisaniPrimerci = rezervisaniPrimerci; }
 	 */
-
-	@Override
-	void prijava() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	void odjava() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	void promenaLozinke() {
-		// TODO Auto-generated method stub
-
-	}
 
 	public String iznajmljeniToFile() {
 		String str = "";

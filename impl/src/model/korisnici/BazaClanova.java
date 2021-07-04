@@ -213,9 +213,7 @@ public class BazaClanova {
 		}
 	}
 
-	public void izmeniClana(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
-			Mesto mesto, String adresa, VrstaClana vrsta, LocalDate datumRodj, String pozivNaBr,
-			LocalDate datumIstekaClan, List<ZauzetPrimerak> zauzetiPrimerci, boolean isObrisan) {
+	public void izmeniClana(Clan clan) {
 
 		File file = new File("./Baza/clanovi.txt");
 		try {
@@ -228,20 +226,20 @@ public class BazaClanova {
 		List<Clan> temp = new ArrayList<Clan>(this.clanovi);
 		for (int i = 0; i < temp.size(); i++) {
 			Clan c = temp.get(i);
-			if (c.getId() == id) {
-				c.setKorisnickoIme(korisnickoIme);
-				c.setIme(ime);
-				c.setPrezime(prezime);
-				c.setLozinka(lozinka);
-				c.setJmbg(jmbg);
-				c.setMesto(mesto);
-				c.setAdresa(adresa);
-				c.setVrsta(vrsta);
-				c.setDatumRodjenja(datumRodj);
-				c.setPozivNaBr(pozivNaBr);
-				c.setDatumIstekaClanarine(datumIstekaClan);
-				c.setIznajmljeniPrimerci(zauzetiPrimerci);
-				c.setObrisan(isObrisan);
+			if (c.getId() == clan.getId()) {
+				c.setKorisnickoIme(clan.getKorisnickoIme());
+				c.setIme(clan.getIme());
+				c.setPrezime(clan.getPrezime());
+				c.setLozinka(clan.getLozinka());
+				c.setJmbg(clan.getJmbg());
+				c.setMesto(clan.getMesto());
+				c.setAdresa(clan.getAdresa());
+				c.setVrsta(clan.getVrsta());
+				c.setDatumRodjenja(clan.getDatumRodjenja());
+				c.setPozivNaBr(clan.getPozivNaBr());
+				c.setDatumIstekaClanarine(clan.getDatumIstekaClanarine());
+				c.setIznajmljeniPrimerci(clan.getIznajmljeniPrimerci());
+				c.setObrisan(clan.isObrisan());
 				this.clanovi.remove(0);
 
 				dodajClana(c);
@@ -284,13 +282,12 @@ public class BazaClanova {
 
 	public void dodajIznajmljeniPrimerakZaClana(Clan clan, ZauzetPrimerak zp) {
 		clan.getIznajmljeniPrimerci().add(zp);
-		izmeniClana(clan.getId(), clan.getKorisnickoIme(), clan.getIme(), clan.getPrezime(), clan.getLozinka(), clan.getJmbg(),
-				clan.getMesto(), clan.getAdresa(), clan.getVrsta(), clan.getDatumRodjenja(), clan.getPozivNaBr(), 
-				clan.getDatumIstekaClanarine(), clan.getIznajmljeniPrimerci(), clan.isObrisan());
-		
+
+		izmeniClana(clan);
+
 	}
 
-	public String generateRandomPassword(int len) { // da li ovo treba u kontroler ili ovde?
+	public String generateRandomPassword(int len) {
 		final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 		SecureRandom random = new SecureRandom();

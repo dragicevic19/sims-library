@@ -7,7 +7,6 @@ import dto.ClanDTO;
 import model.idnums.BazaID;
 import model.korisnici.BazaBibliotekara;
 import model.korisnici.BazaClanova;
-import model.korisnici.BazaKorisnika;
 import model.korisnici.Bibliotekar;
 import model.korisnici.Clan;
 import model.primerak.BazaPrimerak;
@@ -66,11 +65,9 @@ public class BibliotekariController {
 
 	public void blokirajClana(Clan clan) {
 		clan.setObrisan(true);
-		BazaClanova.getInstance().izmeniClana(clan.getId(), clan.getKorisnickoIme(), clan.getIme(), clan.getPrezime(), clan.getLozinka(), clan.getJmbg(),
-				clan.getMesto(), clan.getAdresa(), clan.getVrsta(), clan.getDatumRodjenja(), clan.getPozivNaBr(), 
-				clan.getDatumIstekaClanarine(), clan.getIznajmljeniPrimerci(), clan.isObrisan());
+		BazaClanova.getInstance().izmeniClana(clan);
 	}
-	
+
 	public void dodajBibliotekara(BibliotekarDTO bDTO) {
 		Bibliotekar noviBibliotekar = new Bibliotekar();
 		noviBibliotekar.setId(BazaID.getInstance().getIdKorisnik());
@@ -82,7 +79,6 @@ public class BibliotekariController {
 		noviBibliotekar.setMesto(bDTO.getMesto());
 		noviBibliotekar.setUloge(BazaBibliotekara.getInstance().getSveVrsteBibliotekara());
 		noviBibliotekar.setJmbg(bDTO.getJmbg());
-
 
 		BazaBibliotekara.getInstance().dodajBibliotekara(noviBibliotekar);
 	}

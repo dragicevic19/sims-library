@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -14,7 +13,6 @@ import java.util.Vector;
 import model.enums.VrstaBibliotekara;
 import model.mesto.BazaMesto;
 import model.mesto.Mesto;
-import model.primerak.ZauzetPrimerak;
 
 public class BazaBibliotekara {
 
@@ -185,9 +183,7 @@ public class BazaBibliotekara {
 		}
 	}
 
-	
-	public void izmeniBibliotekara(long id, String korisnickoIme, String ime, String prezime, String lozinka, String jmbg,
-			Mesto mesto, String adresa, List<VrstaBibliotekara> vrstaB, boolean admin) {
+	public void izmeniBibliotekara(Bibliotekar bibliotekar) {
 
 		File file = new File("./Baza/bibliotekari.txt");
 		try {
@@ -195,34 +191,34 @@ public class BazaBibliotekara {
 			writer.append("");
 			writer.close();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
+
 		List<Bibliotekar> temp = new ArrayList<Bibliotekar>(this.bibliotekari);
 		for (int i = 0; i < temp.size(); i++) {
-			Bibliotekar c = temp.get(i);
-			if (c.getId() == id) {
-				c.setKorisnickoIme(korisnickoIme);
-				c.setIme(ime);
-				c.setPrezime(prezime);
-				c.setLozinka(lozinka);
-				c.setJmbg(jmbg);
-				c.setMesto(mesto);
-				c.setAdresa(adresa);
-				c.setUloge(vrstaB);
-				c.setAdmin(admin);
+			Bibliotekar b = temp.get(i);
+			if (b.getId() == bibliotekar.getId()) {
+				b.setKorisnickoIme(bibliotekar.getKorisnickoIme());
+				b.setIme(bibliotekar.getIme());
+				b.setPrezime(bibliotekar.getPrezime());
+				b.setLozinka(bibliotekar.getLozinka());
+				b.setJmbg(bibliotekar.getJmbg());
+				b.setMesto(bibliotekar.getMesto());
+				b.setAdresa(bibliotekar.getAdresa());
+				b.setUloge(bibliotekar.getUloge());
+				b.setAdmin(bibliotekar.isAdmin());
 				this.bibliotekari.remove(0);
 
-				dodajBibliotekara(c);
+				dodajBibliotekara(b);
 			} else {
 
 				this.bibliotekari.remove(0);
 
-				dodajBibliotekara(c);
+				dodajBibliotekara(b);
 			}
 		}
 	}
 
-	
 	public Vector<VrstaBibliotekara> getSveVrsteBibliotekara() {
 		Vector<VrstaBibliotekara> retList = new Vector<VrstaBibliotekara>();
 		retList.add(VrstaBibliotekara.IZDAVANJE);
@@ -230,6 +226,5 @@ public class BazaBibliotekara {
 
 		return retList;
 	}
-	
 
 }

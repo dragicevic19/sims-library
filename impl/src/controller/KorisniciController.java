@@ -1,10 +1,6 @@
 package controller;
 
-import model.korisnici.BazaBibliotekara;
-import model.korisnici.BazaClanova;
 import model.korisnici.BazaKorisnika;
-import model.korisnici.Bibliotekar;
-import model.korisnici.Clan;
 import model.korisnici.Korisnik;
 
 public class KorisniciController {
@@ -38,23 +34,11 @@ public class KorisniciController {
 		if (ulogovaniKorisnik.getLozinka().equals(stara))
 			if (nova.equals(novaPotvrda)) {
 				ulogovaniKorisnik.setLozinka(nova);
-				// BazaKorisnika.promenaLozinke(); zbog osvezavanja baze?
-				if (ulogovaniKorisnik instanceof Clan)
-				{
-					Clan clan = (Clan) ulogovaniKorisnik;
-					BazaClanova.getInstance().izmeniClana(clan.getId(), clan.getKorisnickoIme(), clan.getIme(), clan.getPrezime(), clan.getLozinka(), clan.getJmbg(),
-							clan.getMesto(), clan.getAdresa(), clan.getVrsta(), clan.getDatumRodjenja(), clan.getPozivNaBr(), 
-							clan.getDatumIstekaClanarine(), clan.getIznajmljeniPrimerci(), clan.isObrisan());
-				} else
-					if (ulogovaniKorisnik instanceof Bibliotekar)
-					{
-						Bibliotekar bibliotekar = (Bibliotekar) ulogovaniKorisnik;
-						BazaBibliotekara.getInstance().izmeniBibliotekara(bibliotekar.getId(), bibliotekar.getKorisnickoIme(),
-								bibliotekar.getIme(), bibliotekar.getPrezime(), bibliotekar.getLozinka(), bibliotekar.getJmbg(), 
-								bibliotekar.getMesto(), bibliotekar.getAdresa(), bibliotekar.getUloge(), bibliotekar.isAdmin());
-					}
+
+				ulogovaniKorisnik.izmeniKorisnika();
 				return true;
 			}
+
 		return false;
 	}
 }

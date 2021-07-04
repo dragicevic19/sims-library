@@ -26,6 +26,16 @@ public class Primerak {
 		this.polica = polica;
 	}
 
+	public Primerak(long id, Knjiga knjiga, Izdanje izdanje, boolean zauzet, boolean iznosDozvoljen, int polica) {
+		super();
+		this.id = id;
+		this.knjiga = knjiga;
+		this.izdanje = izdanje;
+		this.zauzet = zauzet;
+		this.iznosDozvoljen = iznosDozvoljen;
+		this.polica = polica;
+	}
+
 	public long getId() {
 		return id;
 	}
