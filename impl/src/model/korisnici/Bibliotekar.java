@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.enums.VrstaBibliotekara;
-import model.enums.Zanr;
 import model.mesto.Mesto;
 import view.admin.MainFrameAdmin;
 import view.bibliotekar.MainFrameBibliotekar;

@@ -1,4 +1,4 @@
-1;1;1;true;true;0;
+1;1;1;false;true;0;
 2;1;1;false;true;0;
 3;1;1;false;true;0;
 4;1;1;false;true;0;
@@ -7,6 +7,6 @@
 7;1;2;false;false;1;
 8;1;2;false;false;1;
 9;2;2;false;false;2;
-10;2;1;false;true;3;
+10;2;1;true;true;3;
 11;2;1;false;true;3;
 12;2;1;false;true;3;

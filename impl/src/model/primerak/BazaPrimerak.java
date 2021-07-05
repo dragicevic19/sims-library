@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-import model.autor.Autor;
-import model.enums.VrstaAutora;
 import model.idnums.BazaID;
 import model.izdanje.BazaIzdanja;
 import model.izdanje.Izdanje;

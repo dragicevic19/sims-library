@@ -1,3 +1,4 @@
 1;paja;Paja;Patak;paja;1002001223232;Loznica;Vuka Karadzica 1;STUDENT;2001-11-11;05-11231-44;2021-11-11;patkovic@gmail.com;4;true
 2;miso;Miso;Misic;miso123;1232152123123;Novi Sad;Rumenacka 2;PENZIONER;2001-11-11;06-1223-412;2021-11-11;miskovic@gmail.com;2;false
-7;noviclan;Novi;Clan;wVtuFZ5VxO;1002332112323;Pozarevac;Ulica 1;ZAPOSLEN;2000-02-10;123-123-232-23;2022-01-04;njovi@gmail.com;6;false
+7;noviclan;Novi;Clan;novi123;1002332112323;Pozarevac;Ulica 1;ZAPOSLEN;2000-02-10;123-123-232-23;2022-01-04;njovi@gmail.com;6;false
+11;milankovic;Milan;Milankovic;eCM2klncGr;2002224225434;Novi Sad;Ulica 10;STUDENT;2000-11-11;123-242-2512-25;2022-01-05;milan@gmail.com;7;false
